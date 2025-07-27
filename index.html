@@ -1,0 +1,3403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventMaster AI Pro - Advanced Event Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-bg-light {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+        
+        .gradient-bg-dark {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+        }
+        
+        .notification-slide {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .ai-typing {
+            animation: typing 1.5s infinite;
+        }
+        
+        @keyframes typing {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        .voice-recording {
+            animation: voicePulse 1s infinite;
+        }
+        
+        @keyframes voicePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .category-card {
+            transition: all 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .voice-wave {
+            animation: wave 1.5s infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { height: 10px; }
+            50% { height: 30px; }
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Animated Background Elements -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-20 left-20 w-32 h-32 bg-purple-400 rounded-full opacity-20 floating-animation"></div>
+        <div class="absolute top-40 right-32 w-24 h-24 bg-pink-400 rounded-full opacity-20 floating-animation" style="animation-delay: -2s;"></div>
+        <div class="absolute bottom-32 left-1/4 w-40 h-40 bg-blue-400 rounded-full opacity-20 floating-animation" style="animation-delay: -4s;"></div>
+        <div class="absolute bottom-20 right-20 w-28 h-28 bg-green-400 rounded-full opacity-20 floating-animation" style="animation-delay: -1s;"></div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="glass-effect rounded-2xl p-8 w-full max-w-md mx-4 text-white">
+            <div class="text-center mb-6">
+                <svg width="64" height="64" viewBox="0 0 64 64" class="mx-auto mb-4">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="32" cy="32" r="30" fill="url(#logoGradient)" stroke="white" stroke-width="2"/>
+                    <rect x="18" y="20" width="28" height="24" rx="3" fill="none" stroke="white" stroke-width="2"/>
+                    <line x1="18" y1="28" x2="46" y2="28" stroke="white" stroke-width="2"/>
+                    <circle cx="24" cy="34" r="2" fill="white"/>
+                    <circle cx="32" cy="34" r="2" fill="white"/>
+                    <circle cx="40" cy="34" r="2" fill="white"/>
+                    <circle cx="24" cy="40" r="2" fill="white"/>
+                    <circle cx="32" cy="40" r="2" fill="white"/>
+                    <rect x="14" y="16" width="4" height="8" rx="2" fill="white"/>
+                    <rect x="46" y="16" width="4" height="8" rx="2" fill="white"/>
+                    <path d="M 20 50 Q 32 54 44 50" stroke="white" stroke-width="2" fill="none"/>
+                </svg>
+                <h2 class="text-2xl font-bold">EventMaster</h2>
+                <p class="text-purple-200 mt-2">Smart Event Management System</p>
+            </div>
+            
+            <!-- Sign In Form -->
+            <div id="signInForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email</label>
+                    <input type="email" id="loginEmail" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter your email">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Password</label>
+                    <input type="password" id="loginPassword" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter your password">
+                </div>
+                <button onclick="login()" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 rounded-lg transition duration-300 transform hover:scale-105">
+                    Sign In
+                </button>
+                <div class="text-center space-y-2">
+                    <button id="forgotPasswordBtn" onclick="showForgotPassword()" class="text-purple-300 hover:text-white text-sm block w-full hidden">Forgot Password?</button>
+                    <button onclick="showSignup()" class="text-purple-300 hover:text-white text-sm">Create Account</button>
+                </div>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div id="signUpForm" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Full Name</label>
+                    <input type="text" id="signupName" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter your full name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email</label>
+                    <input type="email" id="signupEmail" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter your email">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Phone Number</label>
+                    <div class="flex">
+                        <select id="countryCode" class="px-3 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-l-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white text-sm">
+                            <option value="+1">🇺🇸 +1</option>
+                            <option value="+44">🇬🇧 +44</option>
+                            <option value="+91">🇮🇳 +91</option>
+                            <option value="+86">🇨🇳 +86</option>
+                            <option value="+81">🇯🇵 +81</option>
+                            <option value="+49">🇩🇪 +49</option>
+                            <option value="+33">🇫🇷 +33</option>
+                            <option value="+39">🇮🇹 +39</option>
+                            <option value="+34">🇪🇸 +34</option>
+                            <option value="+7">🇷🇺 +7</option>
+                            <option value="+55">🇧🇷 +55</option>
+                            <option value="+52">🇲🇽 +52</option>
+                            <option value="+61">🇦🇺 +61</option>
+                            <option value="+82">🇰🇷 +82</option>
+                            <option value="+65">🇸🇬 +65</option>
+                            <option value="+60">🇲🇾 +60</option>
+                            <option value="+66">🇹🇭 +66</option>
+                            <option value="+84">🇻🇳 +84</option>
+                            <option value="+63">🇵🇭 +63</option>
+                            <option value="+62">🇮🇩 +62</option>
+                        </select>
+                        <input type="tel" id="signupPhone" class="flex-1 px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-r-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter phone number">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Password</label>
+                    <input type="password" id="signupPassword" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Create a password">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Confirm your password">
+                </div>
+                <button onclick="signup()" class="w-full bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-semibold py-3 rounded-lg transition duration-300 transform hover:scale-105">
+                    Create Account
+                </button>
+                <div class="text-center">
+                    <button onclick="showSignIn()" class="text-purple-300 hover:text-white text-sm">Already have an account? Sign In</button>
+                </div>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgotPasswordForm" class="space-y-4 hidden">
+                <div class="text-center mb-4">
+                    <h3 class="text-xl font-semibold">Reset Password</h3>
+                    <p class="text-purple-200 text-sm mt-2">Enter your email or phone number to receive OTP</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email or Phone Number</label>
+                    <input type="text" id="forgotContact" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter email or phone number">
+                </div>
+                <button onclick="sendOTP()" class="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold py-3 rounded-lg transition duration-300 transform hover:scale-105">
+                    Send OTP
+                </button>
+                <div class="text-center">
+                    <button onclick="showSignIn()" class="text-purple-300 hover:text-white text-sm">Back to Sign In</button>
+                </div>
+            </div>
+
+            <!-- OTP Verification Form -->
+            <div id="otpVerificationForm" class="space-y-4 hidden">
+                <div class="text-center mb-4">
+                    <h3 class="text-xl font-semibold">Verify OTP</h3>
+                    <p class="text-purple-200 text-sm mt-2">Enter the 6-digit code sent to <span id="otpSentTo"></span></p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">OTP Code</label>
+                    <input type="text" id="otpCode" maxlength="6" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200 text-center text-2xl tracking-widest" placeholder="000000">
+                </div>
+                <button onclick="verifyOTP()" class="w-full bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-semibold py-3 rounded-lg transition duration-300 transform hover:scale-105">
+                    Verify OTP
+                </button>
+                <div class="text-center space-y-2">
+                    <button onclick="resendOTP()" class="text-purple-300 hover:text-white text-sm block w-full">Resend OTP</button>
+                    <button onclick="showForgotPassword()" class="text-purple-300 hover:text-white text-sm">Back</button>
+                </div>
+            </div>
+
+            <!-- Reset Password Form -->
+            <div id="resetPasswordForm" class="space-y-4 hidden">
+                <div class="text-center mb-4">
+                    <h3 class="text-xl font-semibold">Create New Password</h3>
+                    <p class="text-purple-200 text-sm mt-2">Enter your new password</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">New Password</label>
+                    <input type="password" id="newPassword" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter new password">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Confirm new password">
+                </div>
+                <button onclick="resetPassword()" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 rounded-lg transition duration-300 transform hover:scale-105">
+                    Reset Password
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="mainApp" class="hidden">
+        <!-- Top Navigation -->
+        <nav class="glass-effect text-white p-4 sticky top-0 z-40">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <svg width="32" height="32" viewBox="0 0 64 64">
+                        <defs>
+                            <linearGradient id="navLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="32" cy="32" r="30" fill="url(#navLogoGradient)" stroke="white" stroke-width="2"/>
+                        <rect x="18" y="20" width="28" height="24" rx="3" fill="none" stroke="white" stroke-width="2"/>
+                        <line x1="18" y1="28" x2="46" y2="28" stroke="white" stroke-width="2"/>
+                        <circle cx="24" cy="34" r="2" fill="white"/>
+                        <circle cx="32" cy="34" r="2" fill="white"/>
+                        <circle cx="40" cy="34" r="2" fill="white"/>
+                        <circle cx="24" cy="40" r="2" fill="white"/>
+                        <circle cx="32" cy="40" r="2" fill="white"/>
+                        <rect x="14" y="16" width="4" height="8" rx="2" fill="white"/>
+                        <rect x="46" y="16" width="4" height="8" rx="2" fill="white"/>
+                        <path d="M 20 50 Q 32 54 44 50" stroke="white" stroke-width="2" fill="none"/>
+                    </svg>
+                    <h1 class="text-xl font-bold">EventMaster</h1>
+                </div>
+                
+                <div class="flex items-center space-x-6">
+                    <!-- Theme Toggle Button -->
+                    <button id="themeToggle" onclick="toggleTheme()" class="relative p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition duration-200" title="Toggle Theme">
+                        <i id="themeIcon" class="fas fa-moon text-lg"></i>
+                    </button>
+                    
+                    <!-- Voice Control Button -->
+                    <button id="voiceBtn" onclick="toggleVoiceRecording()" class="relative p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition duration-200">
+                        <i class="fas fa-microphone text-lg"></i>
+                        <span id="voiceIndicator" class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full w-3 h-3 hidden pulse-animation"></span>
+                    </button>
+                    
+                    <button onclick="toggleNotifications()" class="relative p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition duration-200">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span id="notificationBadge" class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </button>
+                    
+                    <button onclick="toggleAIAssistant()" class="p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition duration-200">
+                        <i class="fas fa-robot text-lg"></i>
+                    </button>
+                    
+                    <div class="flex items-center space-x-2">
+                        <button onclick="toggleProfile()" class="flex items-center space-x-2 hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition duration-200">
+                            <img id="userProfilePic" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23a855f7'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='white' font-size='14' font-weight='bold'%3EAI%3C/text%3E%3C/svg%3E" class="w-8 h-8 rounded-full">
+                            <span id="userName" class="font-medium">AI User</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Voice Recording Modal -->
+        <div id="voiceModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="glass-effect rounded-2xl p-8 w-full max-w-md mx-4 text-white text-center">
+                <div class="mb-6">
+                    <i class="fas fa-microphone text-6xl text-purple-300 voice-recording"></i>
+                    <h3 class="text-2xl font-bold mt-4">Voice Command Active</h3>
+                    <p class="text-purple-200 mt-2">Speak your command...</p>
+                </div>
+                
+                <div class="flex justify-center space-x-2 mb-6">
+                    <div class="w-2 bg-purple-400 rounded-full voice-wave"></div>
+                    <div class="w-2 bg-purple-400 rounded-full voice-wave" style="animation-delay: 0.1s;"></div>
+                    <div class="w-2 bg-purple-400 rounded-full voice-wave" style="animation-delay: 0.2s;"></div>
+                    <div class="w-2 bg-purple-400 rounded-full voice-wave" style="animation-delay: 0.3s;"></div>
+                    <div class="w-2 bg-purple-400 rounded-full voice-wave" style="animation-delay: 0.4s;"></div>
+                </div>
+                
+                <div id="voiceTranscript" class="bg-white bg-opacity-20 rounded-lg p-4 mb-4 min-h-[60px] text-left">
+                    <p class="text-purple-200 text-sm">Listening...</p>
+                </div>
+                
+                <button onclick="stopVoiceRecording()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition duration-300">
+                    Stop Recording
+                </button>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="flex">
+            <aside class="glass-effect w-64 min-h-screen p-6 text-white">
+                <nav class="space-y-2">
+                    <button onclick="showSection('dashboard')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button onclick="showSection('categories')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Categories</span>
+                    </button>
+                    <button onclick="showSection('events')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                        <i class="fas fa-calendar-plus"></i>
+                        <span>Events</span>
+                    </button>
+                    <button onclick="showSection('calendar')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                        <i class="fas fa-calendar"></i>
+                        <span>Calendar</span>
+                    </button>
+                    <button onclick="showSection('health')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>Health Hub</span>
+                    </button>
+                    <button onclick="showSection('study')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Study Planner</span>
+                    </button>
+                    <button onclick="showSection('reminders')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                        <i class="fas fa-bell"></i>
+                        <span>Smart Reminders</span>
+                    </button>
+                    <button onclick="showSection('analytics')" class="nav-btn w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>AI Analytics</span>
+                    </button>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 p-6">
+                <!-- Dashboard Section -->
+                <div id="dashboardSection" class="section">
+                    <div class="mb-6">
+                        <h2 class="text-3xl font-bold text-white mb-2">Dashboard</h2>
+                        <p class="text-purple-200">Your intelligent event management overview</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <!-- Enhanced Stats Cards -->
+                        <div class="glass-effect rounded-xl p-6 text-white">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-purple-200">Total Events</p>
+                                    <p class="text-3xl font-bold" id="totalEvents">0</p>
+                                    <p class="text-xs text-green-300 mt-1">↑ 12% this month</p>
+                                </div>
+                                <i class="fas fa-calendar-alt text-3xl text-purple-300"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-effect rounded-xl p-6 text-white">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-green-200">Health Goals</p>
+                                    <p class="text-3xl font-bold" id="healthGoals">0</p>
+                                    <p class="text-xs text-green-300 mt-1">85% completed</p>
+                                </div>
+                                <i class="fas fa-heartbeat text-3xl text-green-300"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-effect rounded-xl p-6 text-white">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-blue-200">Study Sessions</p>
+                                    <p class="text-3xl font-bold" id="studySessions">0</p>
+                                    <p class="text-xs text-blue-300 mt-1">4.2 hrs avg</p>
+                                </div>
+                                <i class="fas fa-graduation-cap text-3xl text-blue-300"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-effect rounded-xl p-6 text-white">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-yellow-200">AI Insights</p>
+                                    <p class="text-3xl font-bold" id="aiInsights">5</p>
+                                    <p class="text-xs text-yellow-300 mt-1">New suggestions</p>
+                                </div>
+                                <i class="fas fa-brain text-3xl text-yellow-300"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Quick Actions -->
+                    <div class="glass-effect rounded-xl p-6 mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4">Quick Actions</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <button onclick="createEventWithAI()" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-4 rounded-lg transition duration-300 transform hover:scale-105">
+                                <i class="fas fa-plus text-2xl mb-2"></i>
+                                <p class="text-sm">AI Event</p>
+                            </button>
+                            <button onclick="showSection('health')" class="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white p-4 rounded-lg transition duration-300 transform hover:scale-105">
+                                <i class="fas fa-heartbeat text-2xl mb-2"></i>
+                                <p class="text-sm">Health Check</p>
+                            </button>
+                            <button onclick="showSection('study')" class="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white p-4 rounded-lg transition duration-300 transform hover:scale-105">
+                                <i class="fas fa-graduation-cap text-2xl mb-2"></i>
+                                <p class="text-sm">Study Plan</p>
+                            </button>
+                            <button onclick="toggleVoiceRecording()" class="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white p-4 rounded-lg transition duration-300 transform hover:scale-105">
+                                <i class="fas fa-microphone text-2xl mb-2"></i>
+                                <p class="text-sm">Voice Command</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Section -->
+                <div id="categoriesSection" class="section hidden">
+                    <div class="mb-6">
+                        <h2 class="text-3xl font-bold text-white mb-2">Event Categories</h2>
+                        <p class="text-purple-200">Organize your life with intelligent categorization</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <!-- Category Cards -->
+                        <div class="category-card glass-effect rounded-xl p-6 text-white hover:bg-white hover:bg-opacity-20 transition duration-300 cursor-pointer" onclick="filterByCategory('birthday')">
+                            <div class="text-center">
+                                <i class="fas fa-birthday-cake text-4xl text-pink-300 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Birthdays</h3>
+                                <p class="text-purple-200 text-sm mb-3">Never miss a special day</p>
+                                <span class="bg-pink-500 text-white px-3 py-1 rounded-full text-xs" id="birthdayCount">0 events</span>
+                            </div>
+                        </div>
+                        
+                        <div class="category-card glass-effect rounded-xl p-6 text-white hover:bg-white hover:bg-opacity-20 transition duration-300 cursor-pointer" onclick="filterByCategory('anniversary')">
+                            <div class="text-center">
+                                <i class="fas fa-heart text-4xl text-red-300 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Anniversaries</h3>
+                                <p class="text-purple-200 text-sm mb-3">Celebrate milestones</p>
+                                <span class="bg-red-500 text-white px-3 py-1 rounded-full text-xs" id="anniversaryCount">0 events</span>
+                            </div>
+                        </div>
+                        
+                        <div class="category-card glass-effect rounded-xl p-6 text-white hover:bg-white hover:bg-opacity-20 transition duration-300 cursor-pointer" onclick="filterByCategory('meeting')">
+                            <div class="text-center">
+                                <i class="fas fa-users text-4xl text-blue-300 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Meetings</h3>
+                                <p class="text-purple-200 text-sm mb-3">Professional gatherings</p>
+                                <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs" id="meetingCount">0 events</span>
+                            </div>
+                        </div>
+                        
+                        <div class="category-card glass-effect rounded-xl p-6 text-white hover:bg-white hover:bg-opacity-20 transition duration-300 cursor-pointer" onclick="filterByCategory('health')">
+                            <div class="text-center">
+                                <i class="fas fa-heartbeat text-4xl text-green-300 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Health</h3>
+                                <p class="text-purple-200 text-sm mb-3">Wellness reminders</p>
+                                <span class="bg-green-500 text-white px-3 py-1 rounded-full text-xs" id="healthCount">0 events</span>
+                            </div>
+                        </div>
+                        
+                        <div class="category-card glass-effect rounded-xl p-6 text-white hover:bg-white hover:bg-opacity-20 transition duration-300 cursor-pointer" onclick="filterByCategory('diet')">
+                            <div class="text-center">
+                                <i class="fas fa-apple-alt text-4xl text-yellow-300 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Diet Plan</h3>
+                                <p class="text-purple-200 text-sm mb-3">Nutrition tracking</p>
+                                <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-xs" id="dietCount">0 events</span>
+                            </div>
+                        </div>
+                        
+                        <div class="category-card glass-effect rounded-xl p-6 text-white hover:bg-white hover:bg-opacity-20 transition duration-300 cursor-pointer" onclick="filterByCategory('study')">
+                            <div class="text-center">
+                                <i class="fas fa-graduation-cap text-4xl text-indigo-300 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Study Schedule</h3>
+                                <p class="text-purple-200 text-sm mb-3">Learning sessions</p>
+                                <span class="bg-indigo-500 text-white px-3 py-1 rounded-full text-xs" id="studyCount">0 events</span>
+                            </div>
+                        </div>
+                        
+                        <div class="category-card glass-effect rounded-xl p-6 text-white hover:bg-white hover:bg-opacity-20 transition duration-300 cursor-pointer" onclick="filterByCategory('workout')">
+                            <div class="text-center">
+                                <i class="fas fa-dumbbell text-4xl text-orange-300 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Workouts</h3>
+                                <p class="text-purple-200 text-sm mb-3">Fitness routines</p>
+                                <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-xs" id="workoutCount">0 events</span>
+                            </div>
+                        </div>
+                        
+                        <div class="category-card glass-effect rounded-xl p-6 text-white hover:bg-white hover:bg-opacity-20 transition duration-300 cursor-pointer" onclick="filterByCategory('personal')">
+                            <div class="text-center">
+                                <i class="fas fa-user text-4xl text-purple-300 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Personal</h3>
+                                <p class="text-purple-200 text-sm mb-3">Private events</p>
+                                <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-xs" id="personalCount">0 events</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Health Hub Section -->
+                <div id="healthSection" class="section hidden">
+                    <div class="mb-6">
+                        <h2 class="text-3xl font-bold text-white mb-2">Health & Wellness Hub</h2>
+                        <p class="text-purple-200">AI-powered health management and reminders</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <!-- Health Stats -->
+                        <div class="glass-effect rounded-xl p-6">
+                            <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                                <i class="fas fa-chart-line mr-2 text-green-300"></i>
+                                Health Overview
+                            </h3>
+                            <div id="healthOverview" class="text-center py-8">
+                                <i class="fas fa-heartbeat text-6xl text-green-300 mb-4 opacity-50"></i>
+                                <h4 class="text-xl font-semibold text-white mb-2">No Health Goals Set</h4>
+                                <p class="text-purple-200 mb-4">Create your first health goal to start tracking your wellness journey!</p>
+                                <button onclick="openHealthGoalModal()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition duration-200">
+                                    <i class="fas fa-plus mr-2"></i>Create Health Goal
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quick Health Actions -->
+                        <div class="glass-effect rounded-xl p-6">
+                            <h3 class="text-xl font-semibold text-white mb-4">Quick Health Actions</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button onclick="addHealthReminder('water')" class="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-lg transition duration-200">
+                                    <i class="fas fa-tint mb-2"></i>
+                                    <p class="text-sm">Water Reminder</p>
+                                </button>
+                                <button onclick="addHealthReminder('medicine')" class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-lg transition duration-200">
+                                    <i class="fas fa-pills mb-2"></i>
+                                    <p class="text-sm">Medicine</p>
+                                </button>
+                                <button onclick="addHealthReminder('exercise')" class="bg-green-500 hover:bg-green-600 text-white p-3 rounded-lg transition duration-200">
+                                    <i class="fas fa-dumbbell mb-2"></i>
+                                    <p class="text-sm">Exercise</p>
+                                </button>
+                                <button onclick="addHealthReminder('checkup')" class="bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-lg transition duration-200">
+                                    <i class="fas fa-stethoscope mb-2"></i>
+                                    <p class="text-sm">Checkup</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diet Planner -->
+                    <div class="glass-effect rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fas fa-utensils mr-2 text-yellow-300"></i>
+                            EventMaster Diet Planner
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white bg-opacity-10 rounded-lg p-4">
+                                <h4 class="font-semibold text-white mb-2">Breakfast</h4>
+                                <p class="text-purple-200 text-sm">Oatmeal with berries</p>
+                                <p class="text-xs text-green-300 mt-1">320 calories</p>
+                            </div>
+                            <div class="bg-white bg-opacity-10 rounded-lg p-4">
+                                <h4 class="font-semibold text-white mb-2">Lunch</h4>
+                                <p class="text-purple-200 text-sm">Grilled chicken salad</p>
+                                <p class="text-xs text-green-300 mt-1">450 calories</p>
+                            </div>
+                            <div class="bg-white bg-opacity-10 rounded-lg p-4">
+                                <h4 class="font-semibold text-white mb-2">Dinner</h4>
+                                <p class="text-purple-200 text-sm">Salmon with vegetables</p>
+                                <p class="text-xs text-green-300 mt-1">380 calories</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Study Planner Section -->
+                <div id="studySection" class="section hidden">
+                    <div class="mb-6">
+                        <h2 class="text-3xl font-bold text-white mb-2">EventMaster Study Planner</h2>
+                        <p class="text-purple-200">Intelligent learning schedule optimization</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <!-- Study Stats -->
+                        <div class="glass-effect rounded-xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4">Study Progress</h3>
+                            <div id="studyProgress" class="text-center py-4">
+                                <i class="fas fa-graduation-cap text-4xl text-blue-300 mb-3 opacity-50"></i>
+                                <p class="text-purple-200 text-sm">No study sessions yet</p>
+                                <button onclick="openStudyPlanModal()" class="mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition duration-200">
+                                    Create Study Plan
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Current Subject -->
+                        <div class="glass-effect rounded-xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4">Current Focus</h3>
+                            <div id="currentFocus" class="text-center py-4">
+                                <i class="fas fa-book text-4xl text-purple-300 mb-3 opacity-50"></i>
+                                <p class="text-purple-200 text-sm">No active study session</p>
+                                <button onclick="openStudyPlanModal()" class="mt-3 bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg text-sm transition duration-200">
+                                    Start Studying
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Study Timer -->
+                        <div class="glass-effect rounded-xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4">Pomodoro Timer</h3>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-red-300 mb-2" id="studyTimer">25:00</div>
+                                <div class="space-x-2">
+                                    <button onclick="startStudyTimer()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm transition duration-200">
+                                        Start
+                                    </button>
+                                    <button onclick="pauseStudyTimer()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm transition duration-200">
+                                        Pause
+                                    </button>
+                                    <button onclick="resetStudyTimer()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition duration-200">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Study Schedule -->
+                    <div class="glass-effect rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fas fa-calendar-alt mr-2 text-blue-300"></i>
+                            Study Schedule
+                        </h3>
+                        <div id="studySchedule" class="text-center py-8">
+                            <i class="fas fa-calendar-plus text-6xl text-blue-300 mb-4 opacity-50"></i>
+                            <h4 class="text-xl font-semibold text-white mb-2">No Study Schedule Created</h4>
+                            <p class="text-purple-200 mb-4">Create your personalized study schedule to organize your learning sessions!</p>
+                            <button onclick="openStudyPlanModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-200">
+                                <i class="fas fa-plus mr-2"></i>Create Study Schedule
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events Section (Enhanced) -->
+                <div id="eventsSection" class="section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-3xl font-bold text-white mb-2">Smart Event Management</h2>
+                            <p class="text-purple-200">AI-powered event organization</p>
+                        </div>
+                        <button onclick="openEventModal()" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-lg font-semibold transition duration-300 transform hover:scale-105">
+                            <i class="fas fa-plus mr-2"></i>Create Event
+                        </button>
+                    </div>
+
+                    <!-- Enhanced Event Filters -->
+                    <div class="glass-effect rounded-xl p-4 mb-6">
+                        <div class="flex flex-wrap gap-3">
+                            <button onclick="filterEvents('all')" class="filter-btn bg-purple-500 text-white px-4 py-2 rounded-lg font-medium transition duration-200">All Events</button>
+                            <button onclick="filterEvents('today')" class="filter-btn bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg font-medium transition duration-200">Today</button>
+                            <button onclick="filterEvents('upcoming')" class="filter-btn bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg font-medium transition duration-200">Upcoming</button>
+                            <button onclick="filterEvents('health')" class="filter-btn bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg font-medium transition duration-200">Health</button>
+                            <button onclick="filterEvents('study')" class="filter-btn bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg font-medium transition duration-200">Study</button>
+                            <button onclick="filterEvents('personal')" class="filter-btn bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg font-medium transition duration-200">Personal</button>
+                        </div>
+                    </div>
+
+                    <!-- Events List -->
+                    <div id="eventsList" class="space-y-4">
+                        <!-- Events will be displayed here -->
+                    </div>
+                </div>
+
+                <!-- Calendar Section (same as before but enhanced) -->
+                <div id="calendarSection" class="section hidden">
+                    <div class="glass-effect rounded-xl p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-white">EventMaster Calendar</h2>
+                            <div class="flex items-center space-x-4">
+                                <button onclick="previousMonth()" class="text-white hover:text-purple-300 p-2">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <h3 id="currentMonth" class="text-xl font-semibold text-white"></h3>
+                                <button onclick="nextMonth()" class="text-white hover:text-purple-300 p-2">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-grid mb-4">
+                            <div class="text-center p-2 text-purple-200 font-semibold">Sun</div>
+                            <div class="text-center p-2 text-purple-200 font-semibold">Mon</div>
+                            <div class="text-center p-2 text-purple-200 font-semibold">Tue</div>
+                            <div class="text-center p-2 text-purple-200 font-semibold">Wed</div>
+                            <div class="text-center p-2 text-purple-200 font-semibold">Thu</div>
+                            <div class="text-center p-2 text-purple-200 font-semibold">Fri</div>
+                            <div class="text-center p-2 text-purple-200 font-semibold">Sat</div>
+                        </div>
+                        
+                        <div id="calendarGrid" class="calendar-grid">
+                            <!-- Calendar days will be generated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Smart Reminders Section -->
+                <div id="remindersSection" class="section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-3xl font-bold text-white mb-2">Smart Reminders</h2>
+                            <p class="text-purple-200">AI-powered intelligent notifications</p>
+                        </div>
+                        <button onclick="openReminderModal()" class="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white px-6 py-3 rounded-lg font-semibold transition duration-300 transform hover:scale-105">
+                            <i class="fas fa-plus mr-2"></i>Add Smart Reminder
+                        </button>
+                    </div>
+
+                    <div id="remindersList" class="space-y-4">
+                        <!-- Reminders will be displayed here -->
+                    </div>
+                </div>
+
+                <!-- AI Analytics Section -->
+                <div id="analyticsSection" class="section hidden">
+                    <div class="mb-6">
+                        <h2 class="text-3xl font-bold text-white mb-2">EventMaster Analytics & Insights</h2>
+                        <p class="text-purple-200">Intelligent analysis of your productivity patterns</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <!-- Productivity Insights -->
+                        <div class="glass-effect rounded-xl p-6">
+                            <h3 class="text-xl font-semibold text-white mb-4">Productivity Insights</h3>
+                            <div class="space-y-4">
+                                <div class="bg-white bg-opacity-10 rounded-lg p-4">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-clock text-blue-300"></i>
+                                        <div>
+                                            <h4 class="text-white font-medium">Peak Productivity</h4>
+                                            <p class="text-purple-200 text-sm">9:00 AM - 11:00 AM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white bg-opacity-10 rounded-lg p-4">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-chart-line text-green-300"></i>
+                                        <div>
+                                            <h4 class="text-white font-medium">Weekly Improvement</h4>
+                                            <p class="text-purple-200 text-sm">+15% task completion</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white bg-opacity-10 rounded-lg p-4">
+                                    <div class="flex items-center space-x-3">
+                                        <i class="fas fa-target text-purple-300"></i>
+                                        <div>
+                                            <h4 class="text-white font-medium">Goal Achievement</h4>
+                                            <p class="text-purple-200 text-sm">87% success rate</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category Distribution -->
+                        <div class="glass-effect rounded-xl p-6">
+                            <h3 class="text-xl font-semibold text-white mb-4">Event Distribution</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center text-white">
+                                    <span>Health & Wellness</span>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-32 bg-white bg-opacity-20 rounded-full h-2">
+                                            <div class="bg-green-500 h-2 rounded-full" style="width: 35%"></div>
+                                        </div>
+                                        <span class="text-sm">35%</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center text-white">
+                                    <span>Study Sessions</span>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-32 bg-white bg-opacity-20 rounded-full h-2">
+                                            <div class="bg-blue-500 h-2 rounded-full" style="width: 30%"></div>
+                                        </div>
+                                        <span class="text-sm">30%</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center text-white">
+                                    <span>Meetings</span>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-32 bg-white bg-opacity-20 rounded-full h-2">
+                                            <div class="bg-purple-500 h-2 rounded-full" style="width: 20%"></div>
+                                        </div>
+                                        <span class="text-sm">20%</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center text-white">
+                                    <span>Personal</span>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-32 bg-white bg-opacity-20 rounded-full h-2">
+                                            <div class="bg-pink-500 h-2 rounded-full" style="width: 15%"></div>
+                                        </div>
+                                        <span class="text-sm">15%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Recommendations -->
+                    <div class="glass-effect rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fas fa-lightbulb mr-2 text-yellow-300"></i>
+                            AI Recommendations
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white bg-opacity-10 rounded-lg p-4">
+                                <h4 class="text-white font-medium mb-2">Schedule Optimization</h4>
+                                <p class="text-purple-200 text-sm">Consider moving study sessions to morning hours for better focus.</p>
+                            </div>
+                            <div class="bg-white bg-opacity-10 rounded-lg p-4">
+                                <h4 class="text-white font-medium mb-2">Health Reminder</h4>
+                                <p class="text-purple-200 text-sm">You haven't logged water intake today. Stay hydrated!</p>
+                            </div>
+                            <div class="bg-white bg-opacity-10 rounded-lg p-4">
+                                <h4 class="text-white font-medium mb-2">Break Suggestion</h4>
+                                <p class="text-purple-200 text-sm">Take a 15-minute break between study sessions for better retention.</p>
+                            </div>
+                            <div class="bg-white bg-opacity-10 rounded-lg p-4">
+                                <h4 class="text-white font-medium mb-2">Goal Achievement</h4>
+                                <p class="text-purple-200 text-sm">You're 2 workouts away from your weekly fitness goal!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Enhanced Event Modal -->
+    <div id="eventModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="glass-effect rounded-2xl p-6 w-full max-w-2xl mx-4 text-white max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Create Smart Event</h3>
+                <button onclick="closeEventModal()" class="text-white hover:text-purple-300">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="eventForm" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Event Title</label>
+                        <input type="text" id="eventTitle" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter event title">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Category</label>
+                        <select id="eventCategory" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                            <option value="birthday">Birthday</option>
+                            <option value="anniversary">Anniversary</option>
+                            <option value="meeting">Meeting</option>
+                            <option value="health">Health Reminder</option>
+                            <option value="diet">Diet Plan</option>
+                            <option value="study">Study Session</option>
+                            <option value="workout">Workout</option>
+                            <option value="personal">Personal</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Date</label>
+                        <input type="date" id="eventDate" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Time</label>
+                        <input type="time" id="eventTime" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Location</label>
+                    <input type="text" id="eventLocation" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter event location">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Description</label>
+                    <textarea id="eventDescription" rows="3" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Event description"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Priority</label>
+                        <select id="eventPriority" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Reminder</label>
+                        <select id="eventReminder" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                            <option value="none">No Reminder</option>
+                            <option value="5">5 minutes before</option>
+                            <option value="15">15 minutes before</option>
+                            <option value="30">30 minutes before</option>
+                            <option value="60">1 hour before</option>
+                            <option value="1440">1 day before</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Repeat</label>
+                        <select id="eventRepeat" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                            <option value="none">No Repeat</option>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="yearly">Yearly</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                        Create Event
+                    </button>
+                    <button type="button" onclick="closeEventModal()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-3 px-6 rounded-lg transition duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Health Goal Modal -->
+    <div id="healthGoalModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="glass-effect rounded-2xl p-6 w-full max-w-md mx-4 text-white">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Create Health Goal</h3>
+                <button onclick="closeHealthGoalModal()" class="text-white hover:text-purple-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="healthGoalForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Goal Title</label>
+                    <input type="text" id="healthGoalTitle" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="e.g., Drink 8 glasses of water daily">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Goal Type</label>
+                    <select id="healthGoalType" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                        <option value="water">Water Intake</option>
+                        <option value="exercise">Exercise</option>
+                        <option value="sleep">Sleep Quality</option>
+                        <option value="meditation">Meditation</option>
+                        <option value="steps">Daily Steps</option>
+                        <option value="weight">Weight Management</option>
+                        <option value="custom">Custom Goal</option>
+                    </select>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Target Value</label>
+                        <input type="number" id="healthGoalTarget" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="8">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Unit</label>
+                        <input type="text" id="healthGoalUnit" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="glasses">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Duration</label>
+                    <select id="healthGoalDuration" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                        Create Goal
+                    </button>
+                    <button type="button" onclick="closeHealthGoalModal()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-3 px-6 rounded-lg transition duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Profile Picture Modal -->
+    <div id="profilePictureModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="glass-effect rounded-2xl p-6 w-full max-w-md mx-4 text-white">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Change Profile Picture</h3>
+                <button onclick="closeProfilePictureModal()" class="text-white hover:text-purple-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="text-center mb-6">
+                <img id="currentProfilePreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Ccircle cx='48' cy='48' r='48' fill='%23a855f7'/%3E%3Ctext x='48' y='60' text-anchor='middle' fill='white' font-size='40' font-weight='bold'%3EAI%3C/text%3E%3C/svg%3E" class="w-24 h-24 rounded-full mx-auto mb-4">
+                <p class="text-purple-200 text-sm">Current Profile Picture</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Upload Custom Picture</label>
+                    <input type="file" id="profilePictureUpload" accept="image/*" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-500 file:text-white hover:file:bg-purple-600">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Or Choose Avatar Sticker</label>
+                    <div class="grid grid-cols-4 gap-3" id="avatarStickers">
+                        <!-- Avatar stickers will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button onclick="saveProfilePicture()" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                        Save Changes
+                    </button>
+                    <button type="button" onclick="closeProfilePictureModal()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-3 px-6 rounded-lg transition duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Settings Modal -->
+    <div id="profileSettingsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="glass-effect rounded-2xl p-6 w-full max-w-md mx-4 text-white">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Profile Settings</h3>
+                <button onclick="closeProfileSettingsModal()" class="text-white hover:text-purple-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="profileSettingsForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Full Name</label>
+                    <input type="text" id="profileName" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter your full name">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email</label>
+                    <input type="email" id="profileEmail" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter your email">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Phone Number</label>
+                    <input type="tel" id="profilePhone" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter your phone number">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Theme Preference</label>
+                    <select id="profileTheme" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white mb-4">
+                        <option value="default">Default Theme</option>
+                        <option value="light">Light Theme</option>
+                        <option value="dark">Dark Theme</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Preferences</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" id="notificationsEnabled" class="rounded bg-white bg-opacity-20 border-white border-opacity-30 text-purple-500 focus:ring-purple-400">
+                            <span class="text-sm">Enable notifications</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" id="voiceEnabled" class="rounded bg-white bg-opacity-20 border-white border-opacity-30 text-purple-500 focus:ring-purple-400">
+                            <span class="text-sm">Enable voice commands</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                        Save Settings
+                    </button>
+                    <button type="button" onclick="closeProfileSettingsModal()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-3 px-6 rounded-lg transition duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Study Plan Modal -->
+    <div id="studyPlanModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="glass-effect rounded-2xl p-6 w-full max-w-md mx-4 text-white">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Create Study Plan</h3>
+                <button onclick="closeStudyPlanModal()" class="text-white hover:text-purple-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="studyPlanForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Subject</label>
+                    <input type="text" id="studySubject" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="e.g., Mathematics">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Topic/Chapter</label>
+                    <input type="text" id="studyTopic" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="e.g., Calculus - Chapter 5">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Duration (hours)</label>
+                        <input type="number" id="studyDuration" required step="0.5" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Priority</label>
+                        <select id="studyPriority" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Schedule</label>
+                    <select id="studyScheduleType" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="custom">Custom Schedule</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Start Date</label>
+                    <input type="date" id="studyStartDate" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                        Create Plan
+                    </button>
+                    <button type="button" onclick="closeStudyPlanModal()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-3 px-6 rounded-lg transition duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Enhanced Reminder Modal -->
+    <div id="reminderModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="glass-effect rounded-2xl p-6 w-full max-w-md mx-4 text-white">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Add Smart Reminder</h3>
+                <button onclick="closeReminderModal()" class="text-white hover:text-purple-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="reminderForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Reminder Title</label>
+                    <input type="text" id="reminderTitle" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white placeholder-purple-200" placeholder="Enter reminder title">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Date & Time</label>
+                    <input type="datetime-local" id="reminderDateTime" required class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Type</label>
+                    <select id="reminderType" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                        <option value="notification">Smart Notification</option>
+                        <option value="alarm">Alarm</option>
+                        <option value="email">Email (Demo)</option>
+                        <option value="voice">Voice Alert</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Category</label>
+                    <select id="reminderCategory" class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent text-white">
+                        <option value="general">General</option>
+                        <option value="health">Health</option>
+                        <option value="study">Study</option>
+                        <option value="work">Work</option>
+                        <option value="personal">Personal</option>
+                    </select>
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                        Add Reminder
+                    </button>
+                    <button type="button" onclick="closeReminderModal()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-3 px-6 rounded-lg transition duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Enhanced AI Assistant -->
+    <div id="aiAssistant" class="fixed bottom-6 right-6 w-80 glass-effect rounded-2xl text-white hidden">
+        <div class="p-4 border-b border-white border-opacity-20">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-brain text-purple-300"></i>
+                    <h4 class="font-semibold">EventMaster Assistant</h4>
+                    <span class="bg-green-500 w-2 h-2 rounded-full pulse-animation"></span>
+                </div>
+                <button onclick="toggleAIAssistant()" class="text-white hover:text-purple-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="aiChat" class="h-64 overflow-y-auto p-4 space-y-3">
+            <div class="flex items-start space-x-2">
+                <i class="fas fa-brain text-purple-300 mt-1"></i>
+                <div class="bg-white bg-opacity-20 rounded-lg p-3 text-sm">
+                    Hi! I'm your EventMaster assistant with advanced capabilities. I can help with voice commands, smart scheduling, health tracking, and much more!
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-4 border-t border-white border-opacity-20">
+            <div class="flex space-x-2">
+                <input type="text" id="aiInput" placeholder="Ask me anything..." class="flex-1 px-3 py-2 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white placeholder-purple-200 text-sm focus:ring-2 focus:ring-purple-400 focus:border-transparent">
+                <button onclick="toggleVoiceRecording()" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg transition duration-200">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button onclick="sendAIMessage()" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition duration-200">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Dropdown Panel -->
+    <div id="profilePanel" class="fixed top-16 right-4 w-80 glass-effect rounded-2xl text-white hidden">
+        <div class="p-4 border-b border-white border-opacity-20">
+            <div class="flex items-center space-x-3">
+                <img id="profilePanelPic" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='24' fill='%23a855f7'/%3E%3Ctext x='24' y='30' text-anchor='middle' fill='white' font-size='20' font-weight='bold'%3EAI%3C/text%3E%3C/svg%3E" class="w-12 h-12 rounded-full">
+                <div>
+                    <h4 id="profilePanelName" class="font-semibold">AI User</h4>
+                    <p id="profilePanelEmail" class="text-purple-200 text-sm">user@example.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-4 space-y-2">
+            <button onclick="openProfileSettings()" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                <i class="fas fa-user-cog"></i>
+                <span>Profile Settings</span>
+            </button>
+            <button onclick="openProfilePictureModal()" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                <i class="fas fa-camera"></i>
+                <span>Change Profile Picture</span>
+            </button>
+            <button onclick="toggleTheme()" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                <i id="profileThemeIcon" class="fas fa-adjust"></i>
+                <span>Switch Theme</span>
+                <span id="currentThemeText" class="ml-auto text-xs bg-purple-500 px-2 py-1 rounded-full">Default</span>
+            </button>
+            <button onclick="showSection('dashboard')" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </button>
+            <hr class="border-white border-opacity-20 my-2">
+            <button onclick="logout()" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-red-500 hover:bg-opacity-20 text-red-300 hover:text-red-200 transition duration-200">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sign Out</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Notifications Panel -->
+    <div id="notificationsPanel" class="fixed top-16 right-4 w-80 glass-effect rounded-2xl text-white hidden max-h-96 overflow-y-auto">
+        <div class="p-4 border-b border-white border-opacity-20">
+            <h4 class="font-semibold">Smart Notifications</h4>
+        </div>
+        <div id="notificationsList" class="p-4 space-y-3">
+            <!-- Notifications will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let events = [];
+        let reminders = [];
+        let currentUser = null;
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let currentFilter = 'all';
+        let editingEventId = null;
+        let isRecording = false;
+        let recognition = null;
+        let studyTimerInterval = null;
+        let studyTimeLeft = 25 * 60; // 25 minutes in seconds
+        let currentTheme = 'default'; // default, light, dark
+
+        // Enhanced database simulation
+        const database = {
+            users: JSON.parse(localStorage.getItem('eventmaster_users') || '{}'),
+            events: JSON.parse(localStorage.getItem('eventmaster_events') || '[]'),
+            reminders: JSON.parse(localStorage.getItem('eventmaster_reminders') || '[]'),
+            healthData: JSON.parse(localStorage.getItem('eventmaster_health') || '{}'),
+            studyData: JSON.parse(localStorage.getItem('eventmaster_study') || '{}')
+        };
+
+        // Enhanced event categories with AI suggestions
+        const eventCategories = {
+            birthday: {
+                icon: 'fas fa-birthday-cake',
+                color: 'pink',
+                suggestions: ['Plan party', 'Buy gift', 'Send invitations', 'Order cake']
+            },
+            anniversary: {
+                icon: 'fas fa-heart',
+                color: 'red',
+                suggestions: ['Book restaurant', 'Plan surprise', 'Buy flowers', 'Create memories']
+            },
+            meeting: {
+                icon: 'fas fa-users',
+                color: 'blue',
+                suggestions: ['Prepare agenda', 'Book room', 'Send invites', 'Prepare materials']
+            },
+            health: {
+                icon: 'fas fa-heartbeat',
+                color: 'green',
+                suggestions: ['Take medication', 'Drink water', 'Exercise', 'Check vitals']
+            },
+            diet: {
+                icon: 'fas fa-apple-alt',
+                color: 'yellow',
+                suggestions: ['Meal prep', 'Track calories', 'Grocery shopping', 'Hydrate']
+            },
+            study: {
+                icon: 'fas fa-graduation-cap',
+                color: 'indigo',
+                suggestions: ['Review notes', 'Practice problems', 'Take breaks', 'Focus session']
+            },
+            workout: {
+                icon: 'fas fa-dumbbell',
+                color: 'orange',
+                suggestions: ['Warm up', 'Strength training', 'Cardio', 'Cool down']
+            },
+            personal: {
+                icon: 'fas fa-user',
+                color: 'purple',
+                suggestions: ['Self care', 'Hobby time', 'Relaxation', 'Personal goals']
+            }
+        };
+
+        // Avatar stickers data
+        const avatarStickers = [
+            { id: 'avatar1', type: 'person', color: '#FF6B6B', hair: 'short', eyes: 'happy' },
+            { id: 'avatar2', type: 'person', color: '#4ECDC4', hair: 'curly', eyes: 'glasses' },
+            { id: 'avatar3', type: 'person', color: '#45B7D1', hair: 'long', eyes: 'cool' },
+            { id: 'avatar4', type: 'person', color: '#96CEB4', hair: 'bald', eyes: 'wink' },
+            { id: 'avatar5', type: 'person', color: '#FFEAA7', hair: 'spiky', eyes: 'star' },
+            { id: 'avatar6', type: 'person', color: '#DDA0DD', hair: 'wavy', eyes: 'heart' },
+            { id: 'avatar7', type: 'person', color: '#98D8C8', hair: 'ponytail', eyes: 'sleepy' },
+            { id: 'avatar8', type: 'person', color: '#F7DC6F', hair: 'buzz', eyes: 'surprised' },
+            { id: 'avatar9', type: 'person', color: '#BB8FCE', hair: 'afro', eyes: 'normal' },
+            { id: 'avatar10', type: 'person', color: '#85C1E9', hair: 'mohawk', eyes: 'closed' },
+            { id: 'avatar11', type: 'person', color: '#F8C471', hair: 'braids', eyes: 'angry' },
+            { id: 'avatar12', type: 'person', color: '#82E0AA', hair: 'messy', eyes: 'happy' }
+        ];
+
+        let selectedAvatar = null;
+        let uploadedImage = null;
+
+        // Theme Management Functions
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('eventmaster_theme') || 'default';
+            currentTheme = savedTheme;
+            applyTheme(currentTheme);
+        }
+
+        function toggleTheme() {
+            const themes = ['default', 'light', 'dark'];
+            const currentIndex = themes.indexOf(currentTheme);
+            const nextIndex = (currentIndex + 1) % themes.length;
+            currentTheme = themes[nextIndex];
+            
+            applyTheme(currentTheme);
+            localStorage.setItem('eventmaster_theme', currentTheme);
+            showNotification(`Switched to ${currentTheme} theme`, 'success');
+        }
+
+        function applyTheme(theme) {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            // Remove existing theme classes
+            body.classList.remove('gradient-bg', 'gradient-bg-light', 'gradient-bg-dark');
+            
+            // Apply new theme
+            switch(theme) {
+                case 'light':
+                    body.classList.add('gradient-bg-light');
+                    themeIcon.className = 'fas fa-sun text-lg';
+                    updateThemeColors('light');
+                    break;
+                case 'dark':
+                    body.classList.add('gradient-bg-dark');
+                    themeIcon.className = 'fas fa-moon text-lg';
+                    updateThemeColors('dark');
+                    break;
+                default:
+                    body.classList.add('gradient-bg');
+                    themeIcon.className = 'fas fa-adjust text-lg';
+                    updateThemeColors('default');
+                    break;
+            }
+        }
+
+        function updateThemeColors(theme) {
+            const root = document.documentElement;
+            
+            switch(theme) {
+                case 'light':
+                    // Light theme colors
+                    root.style.setProperty('--glass-bg', 'rgba(255, 255, 255, 0.25)');
+                    root.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.4)');
+                    root.style.setProperty('--text-primary', '#2d3748');
+                    root.style.setProperty('--text-secondary', '#4a5568');
+                    root.style.setProperty('--text-accent', '#553c9a');
+                    break;
+                case 'dark':
+                    // Dark theme colors
+                    root.style.setProperty('--glass-bg', 'rgba(0, 0, 0, 0.3)');
+                    root.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.1)');
+                    root.style.setProperty('--text-primary', '#f7fafc');
+                    root.style.setProperty('--text-secondary', '#e2e8f0');
+                    root.style.setProperty('--text-accent', '#d6bcfa');
+                    break;
+                default:
+                    // Default theme colors
+                    root.style.setProperty('--glass-bg', 'rgba(255, 255, 255, 0.1)');
+                    root.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.2)');
+                    root.style.setProperty('--text-primary', '#ffffff');
+                    root.style.setProperty('--text-secondary', '#e2e8f0');
+                    root.style.setProperty('--text-accent', '#d6bcfa');
+                    break;
+            }
+            
+            // Update glass effect styles
+            updateGlassEffects(theme);
+        }
+
+        function updateGlassEffects(theme) {
+            const style = document.createElement('style');
+            style.id = 'theme-styles';
+            
+            // Remove existing theme styles
+            const existingStyle = document.getElementById('theme-styles');
+            if (existingStyle) {
+                existingStyle.remove();
+            }
+            
+            let glassStyles = '';
+            
+            switch(theme) {
+                case 'light':
+                    glassStyles = `
+                        .glass-effect {
+                            background: rgba(255, 255, 255, 0.25) !important;
+                            backdrop-filter: blur(10px);
+                            border: 1px solid rgba(255, 255, 255, 0.4) !important;
+                        }
+                        .text-white { color: #2d3748 !important; }
+                        .text-purple-200 { color: #553c9a !important; }
+                        .text-purple-300 { color: #6b46c1 !important; }
+                        .hover\\:bg-white:hover { background-color: rgba(0, 0, 0, 0.1) !important; }
+                    `;
+                    break;
+                case 'dark':
+                    glassStyles = `
+                        .glass-effect {
+                            background: rgba(0, 0, 0, 0.4) !important;
+                            backdrop-filter: blur(10px);
+                            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                        }
+                        .text-white { color: #f7fafc !important; }
+                        .text-purple-200 { color: #d6bcfa !important; }
+                        .text-purple-300 { color: #c084fc !important; }
+                        .hover\\:bg-white:hover { background-color: rgba(255, 255, 255, 0.1) !important; }
+                    `;
+                    break;
+                default:
+                    glassStyles = `
+                        .glass-effect {
+                            background: rgba(255, 255, 255, 0.1) !important;
+                            backdrop-filter: blur(10px);
+                            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+                        }
+                        .text-white { color: #ffffff !important; }
+                        .text-purple-200 { color: #e2e8f0 !important; }
+                        .text-purple-300 { color: #d6bcfa !important; }
+                        .hover\\:bg-white:hover { background-color: rgba(255, 255, 255, 0.2) !important; }
+                    `;
+                    break;
+            }
+            
+            style.textContent = glassStyles;
+            document.head.appendChild(style);
+        }
+
+        // Initialize app with enhanced features
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            initializeVoiceRecognition();
+            loadData();
+            if (currentUser) {
+                showMainApp();
+            }
+            
+            // Set up event listeners
+            document.getElementById('eventForm').addEventListener('submit', handleEventSubmit);
+            document.getElementById('reminderForm').addEventListener('submit', handleReminderSubmit);
+            document.getElementById('healthGoalForm').addEventListener('submit', handleHealthGoalSubmit);
+            document.getElementById('studyPlanForm').addEventListener('submit', handleStudyPlanSubmit);
+            document.getElementById('profileSettingsForm').addEventListener('submit', handleProfileSettingsSubmit);
+            document.getElementById('profilePictureUpload').addEventListener('change', handleImageUpload);
+            document.getElementById('aiInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendAIMessage();
+                }
+            });
+            
+            // Initialize calendar and other components
+            generateCalendar();
+            updateDashboard();
+            updateCategoryCounts();
+            generateAvatarStickers();
+            
+            // Check for reminders every minute
+            setInterval(checkReminders, 60000);
+            
+            // Update study schedule
+            generateStudySchedule();
+        });
+
+        // Voice Recognition Setup
+        function initializeVoiceRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'en-US';
+                
+                recognition.onstart = function() {
+                    isRecording = true;
+                    document.getElementById('voiceIndicator').classList.remove('hidden');
+                    document.getElementById('voiceModal').classList.remove('hidden');
+                    document.getElementById('voiceModal').classList.add('flex');
+                };
+                
+                recognition.onresult = function(event) {
+                    let transcript = '';
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        transcript += event.results[i][0].transcript;
+                    }
+                    document.getElementById('voiceTranscript').innerHTML = `<p class="text-white">${transcript}</p>`;
+                    
+                    if (event.results[event.results.length - 1].isFinal) {
+                        processVoiceCommand(transcript);
+                    }
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    stopVoiceRecording();
+                };
+                
+                recognition.onend = function() {
+                    stopVoiceRecording();
+                };
+            }
+        }
+
+        function toggleVoiceRecording() {
+            if (isRecording) {
+                stopVoiceRecording();
+            } else {
+                startVoiceRecording();
+            }
+        }
+
+        function startVoiceRecording() {
+            if (recognition) {
+                recognition.start();
+            } else {
+                showNotification('Voice recognition not supported in this browser', 'error');
+            }
+        }
+
+        function stopVoiceRecording() {
+            if (recognition) {
+                recognition.stop();
+            }
+            isRecording = false;
+            document.getElementById('voiceIndicator').classList.add('hidden');
+            document.getElementById('voiceModal').classList.add('hidden');
+            document.getElementById('voiceModal').classList.remove('flex');
+        }
+
+        function processVoiceCommand(command) {
+            const lowerCommand = command.toLowerCase();
+            
+            if (lowerCommand.includes('create event') || lowerCommand.includes('add event')) {
+                openEventModal();
+                addAIMessage('Opening event creation form for you!');
+            } else if (lowerCommand.includes('show calendar')) {
+                showSection('calendar');
+                addAIMessage('Displaying your calendar view.');
+            } else if (lowerCommand.includes('health reminder') || lowerCommand.includes('water reminder')) {
+                addHealthReminder('water');
+                addAIMessage('Added water reminder for you!');
+            } else if (lowerCommand.includes('study timer') || lowerCommand.includes('start timer')) {
+                startStudyTimer();
+                addAIMessage('Starting your study timer!');
+            } else if (lowerCommand.includes('show dashboard')) {
+                showSection('dashboard');
+                addAIMessage('Here\'s your dashboard overview.');
+            } else {
+                addAIMessage(`I heard: "${command}". Let me help you with that!`);
+                generateAIResponse(command);
+            }
+        }
+
+        // Global variables for authentication
+        let currentOTP = null;
+        let otpExpiry = null;
+        let resetUserContact = null;
+
+        // Enhanced Authentication Functions
+        function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showNotification('Please enter both email and password', 'error');
+                return;
+            }
+            
+            // Check if user exists in database
+            const existingUser = database.users[email];
+            
+            if (!existingUser) {
+                showNotification('Account not found. Please create an account first.', 'error');
+                return;
+            }
+            
+            // Verify password
+            if (existingUser.password !== password) {
+                showNotification('Incorrect password. Please try again or use forgot password.', 'error');
+                
+                // Show forgot password button after failed login attempt
+                document.getElementById('forgotPasswordBtn').classList.remove('hidden');
+                
+                // Send security alert (demo notification)
+                setTimeout(() => {
+                    showNotification(`Security Alert: Failed login attempt for ${email}. If this wasn't you, please secure your account.`, 'warning');
+                    sendSecurityAlert(existingUser);
+                }, 1000);
+                return;
+            }
+            
+            // Successful login
+            currentUser = existingUser;
+            document.getElementById('userName').textContent = currentUser.name;
+            showMainApp();
+            showNotification('Welcome back to EventMaster, ' + currentUser.name + '!', 'success');
+            
+            // Load user-specific data
+            loadUserData();
+        }
+
+        function signup() {
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const countryCode = document.getElementById('countryCode').value;
+            const phoneNumber = document.getElementById('signupPhone').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            // Combine country code with phone number
+            const fullPhone = countryCode + phoneNumber;
+            
+            // Validation
+            if (!name || !email || !phoneNumber || !password || !confirmPassword) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            if (!isValidPhone(phoneNumber)) {
+                showNotification('Please enter a valid phone number', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showNotification('Password must be at least 6 characters long', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match', 'error');
+                return;
+            }
+            
+            // Check if user already exists
+            if (database.users[email]) {
+                showNotification('Account with this email already exists', 'error');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: email,
+                name: name,
+                email: email,
+                phone: fullPhone,
+                password: password,
+                preferences: {
+                    theme: 'dark',
+                    notifications: true,
+                    voiceEnabled: true
+                },
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save user to database
+            database.users[email] = newUser;
+            saveToDatabase();
+            
+            showNotification('Account created successfully! Please sign in.', 'success');
+            showSignIn();
+        }
+
+        function sendSecurityAlert(user) {
+            // Simulate sending security alert via email/SMS
+            const alertMessage = `EventMaster Security Alert for ${user.name}:\n\nSomeone attempted to access your EventMaster account with an incorrect password.\n\nTime: ${new Date().toLocaleString()}\n\nIf this wasn't you, please change your password immediately.`;
+            
+            // Demo: Show notification instead of actual email/SMS
+            console.log('Security Alert Email sent to:', user.email);
+            console.log('Security Alert SMS sent to:', user.phone);
+            console.log('Message:', alertMessage);
+            
+            // In a real application, you would integrate with email/SMS services here
+            showNotification('Security alert sent to your registered email and phone', 'info');
+        }
+
+        function sendOTP() {
+            const contact = document.getElementById('forgotContact').value.trim();
+            
+            if (!contact) {
+                showNotification('Please enter your email or phone number', 'error');
+                return;
+            }
+            
+            // Find user by email or phone
+            let foundUser = null;
+            for (const userId in database.users) {
+                const user = database.users[userId];
+                if (user.email === contact || user.phone === contact) {
+                    foundUser = user;
+                    break;
+                }
+            }
+            
+            if (!foundUser) {
+                showNotification('No account found with this email or phone number', 'error');
+                return;
+            }
+            
+            // Generate OTP
+            currentOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+            resetUserContact = contact;
+            
+            // Simulate sending OTP
+            const isEmail = contact.includes('@');
+            const maskedContact = isEmail ? 
+                contact.replace(/(.{2})(.*)(@.*)/, '$1***$3') : 
+                contact.replace(/(\d{3})(\d{3})(\d{4})/, '$1-***-$3');
+            
+            document.getElementById('otpSentTo').textContent = maskedContact;
+            
+            // Demo: Log OTP (in real app, send via email/SMS)
+            console.log('OTP sent to:', contact);
+            console.log('OTP Code:', currentOTP);
+            
+            // Show OTP in notification for demo purposes
+            showNotification(`OTP sent to ${maskedContact}. Demo OTP: ${currentOTP}`, 'success');
+            showOTPVerification();
+        }
+
+        function verifyOTP() {
+            const enteredOTP = document.getElementById('otpCode').value.trim();
+            
+            if (!enteredOTP) {
+                showNotification('Please enter the OTP code', 'error');
+                return;
+            }
+            
+            if (!currentOTP || !otpExpiry) {
+                showNotification('No OTP request found. Please request a new OTP.', 'error');
+                return;
+            }
+            
+            if (new Date() > otpExpiry) {
+                showNotification('OTP has expired. Please request a new one.', 'error');
+                currentOTP = null;
+                otpExpiry = null;
+                return;
+            }
+            
+            if (enteredOTP !== currentOTP) {
+                showNotification('Invalid OTP. Please try again.', 'error');
+                return;
+            }
+            
+            // OTP verified successfully
+            showNotification('OTP verified successfully!', 'success');
+            showResetPassword();
+        }
+
+        function resendOTP() {
+            if (!resetUserContact) {
+                showNotification('Please start the password reset process again', 'error');
+                showForgotPassword();
+                return;
+            }
+            
+            // Generate new OTP
+            currentOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+            
+            console.log('New OTP sent to:', resetUserContact);
+            console.log('New OTP Code:', currentOTP);
+            
+            showNotification('New OTP sent successfully!', 'success');
+        }
+
+        function resetPassword() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+            
+            if (!newPassword || !confirmNewPassword) {
+                showNotification('Please fill in both password fields', 'error');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showNotification('Password must be at least 6 characters long', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmNewPassword) {
+                showNotification('Passwords do not match', 'error');
+                return;
+            }
+            
+            // Find and update user password
+            let userFound = false;
+            for (const userId in database.users) {
+                const user = database.users[userId];
+                if (user.email === resetUserContact || user.phone === resetUserContact) {
+                    user.password = newPassword;
+                    userFound = true;
+                    break;
+                }
+            }
+            
+            if (!userFound) {
+                showNotification('User not found. Please try again.', 'error');
+                return;
+            }
+            
+            // Save updated password
+            saveToDatabase();
+            
+            // Clear OTP data
+            currentOTP = null;
+            otpExpiry = null;
+            resetUserContact = null;
+            
+            showNotification('Password reset successfully! Please sign in with your new password.', 'success');
+            showSignIn();
+        }
+
+        // Form Navigation Functions
+        function showSignIn() {
+            hideAllForms();
+            document.getElementById('signInForm').classList.remove('hidden');
+            // Hide forgot password button when showing sign in form
+            document.getElementById('forgotPasswordBtn').classList.add('hidden');
+        }
+
+        function showSignup() {
+            hideAllForms();
+            document.getElementById('signUpForm').classList.remove('hidden');
+        }
+
+        function showForgotPassword() {
+            hideAllForms();
+            document.getElementById('forgotPasswordForm').classList.remove('hidden');
+        }
+
+        function showOTPVerification() {
+            hideAllForms();
+            document.getElementById('otpVerificationForm').classList.remove('hidden');
+        }
+
+        function showResetPassword() {
+            hideAllForms();
+            document.getElementById('resetPasswordForm').classList.remove('hidden');
+        }
+
+        function hideAllForms() {
+            document.getElementById('signInForm').classList.add('hidden');
+            document.getElementById('signUpForm').classList.add('hidden');
+            document.getElementById('forgotPasswordForm').classList.add('hidden');
+            document.getElementById('otpVerificationForm').classList.add('hidden');
+            document.getElementById('resetPasswordForm').classList.add('hidden');
+        }
+
+        // Validation Functions
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function isValidPhone(phone) {
+            // Remove spaces, dashes, and parentheses for validation
+            const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
+            // Check if it's a valid phone number (4-15 digits)
+            const phoneRegex = /^[0-9]{4,15}$/;
+            return phoneRegex.test(cleanPhone);
+        }
+
+        function loadUserData() {
+            if (currentUser) {
+                events = database.events.filter(e => e.userId === currentUser.id) || [];
+                reminders = database.reminders.filter(r => r.userId === currentUser.id) || [];
+                
+                // Load user's theme preference
+                if (currentUser.preferences?.theme) {
+                    currentTheme = currentUser.preferences.theme;
+                    applyTheme(currentTheme);
+                    localStorage.setItem('eventmaster_theme', currentTheme);
+                }
+                
+                updateDashboard();
+                updateCategoryCounts();
+                updateProfileDisplay();
+            }
+        }
+
+        // Profile Management Functions
+        function toggleProfile() {
+            const profilePanel = document.getElementById('profilePanel');
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            
+            // Close notifications panel if open
+            notificationsPanel.classList.add('hidden');
+            
+            profilePanel.classList.toggle('hidden');
+            
+            if (!profilePanel.classList.contains('hidden')) {
+                updateProfilePanel();
+            }
+        }
+
+        function updateProfileDisplay() {
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.name;
+                
+                // Update profile picture
+                const profilePic = currentUser.profilePicture || generateDefaultAvatar(currentUser.name);
+                document.getElementById('userProfilePic').src = profilePic;
+                document.getElementById('profilePanelPic').src = profilePic;
+                document.getElementById('currentProfilePreview').src = profilePic;
+            }
+        }
+
+        function updateProfilePanel() {
+            if (currentUser) {
+                document.getElementById('profilePanelName').textContent = currentUser.name;
+                document.getElementById('profilePanelEmail').textContent = currentUser.email;
+                document.getElementById('profilePanelPic').src = currentUser.profilePicture || generateDefaultAvatar(currentUser.name);
+                
+                // Update theme display
+                const themeText = document.getElementById('currentThemeText');
+                const themeIcon = document.getElementById('profileThemeIcon');
+                
+                if (themeText && themeIcon) {
+                    themeText.textContent = currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1);
+                    
+                    switch(currentTheme) {
+                        case 'light':
+                            themeIcon.className = 'fas fa-sun';
+                            break;
+                        case 'dark':
+                            themeIcon.className = 'fas fa-moon';
+                            break;
+                        default:
+                            themeIcon.className = 'fas fa-adjust';
+                            break;
+                    }
+                }
+            }
+        }
+
+        function generateDefaultAvatar(name) {
+            const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+            return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='24' fill='%23a855f7'/%3E%3Ctext x='24' y='30' text-anchor='middle' fill='white' font-size='16' font-weight='bold'%3E${initials}%3C/text%3E%3C/svg%3E`;
+        }
+
+        function openProfileSettings() {
+            document.getElementById('profilePanel').classList.add('hidden');
+            document.getElementById('profileSettingsModal').classList.remove('hidden');
+            document.getElementById('profileSettingsModal').classList.add('flex');
+            
+            // Populate form with current user data
+            if (currentUser) {
+                document.getElementById('profileName').value = currentUser.name;
+                document.getElementById('profileEmail').value = currentUser.email;
+                document.getElementById('profilePhone').value = currentUser.phone || '';
+                document.getElementById('profileTheme').value = currentUser.preferences?.theme || currentTheme;
+                document.getElementById('notificationsEnabled').checked = currentUser.preferences?.notifications !== false;
+                document.getElementById('voiceEnabled').checked = currentUser.preferences?.voiceEnabled !== false;
+            }
+        }
+
+        function closeProfileSettingsModal() {
+            document.getElementById('profileSettingsModal').classList.add('hidden');
+            document.getElementById('profileSettingsModal').classList.remove('flex');
+        }
+
+        function handleProfileSettingsSubmit(e) {
+            e.preventDefault();
+            
+            if (currentUser) {
+                const selectedTheme = document.getElementById('profileTheme').value;
+                
+                currentUser.name = document.getElementById('profileName').value;
+                currentUser.email = document.getElementById('profileEmail').value;
+                currentUser.phone = document.getElementById('profilePhone').value;
+                currentUser.preferences = {
+                    theme: selectedTheme,
+                    notifications: document.getElementById('notificationsEnabled').checked,
+                    voiceEnabled: document.getElementById('voiceEnabled').checked
+                };
+                
+                // Apply theme if changed
+                if (selectedTheme !== currentTheme) {
+                    currentTheme = selectedTheme;
+                    applyTheme(currentTheme);
+                    localStorage.setItem('eventmaster_theme', currentTheme);
+                }
+                
+                // Update in database
+                database.users[currentUser.id] = currentUser;
+                saveToDatabase();
+                
+                updateProfileDisplay();
+                closeProfileSettingsModal();
+                showNotification('Profile settings updated successfully!', 'success');
+            }
+        }
+
+        function openProfilePictureModal() {
+            document.getElementById('profilePanel').classList.add('hidden');
+            document.getElementById('profilePictureModal').classList.remove('hidden');
+            document.getElementById('profilePictureModal').classList.add('flex');
+            
+            // Reset selections
+            selectedAvatar = null;
+            uploadedImage = null;
+            
+            // Update preview
+            if (currentUser && currentUser.profilePicture) {
+                document.getElementById('currentProfilePreview').src = currentUser.profilePicture;
+            }
+        }
+
+        function closeProfilePictureModal() {
+            document.getElementById('profilePictureModal').classList.add('hidden');
+            document.getElementById('profilePictureModal').classList.remove('flex');
+            document.getElementById('profilePictureUpload').value = '';
+        }
+
+        function generateAvatarStickers() {
+            const container = document.getElementById('avatarStickers');
+            container.innerHTML = avatarStickers.map(avatar => `
+                <button onclick="selectAvatar('${avatar.id}')" class="avatar-sticker w-12 h-12 rounded-full flex items-center justify-center hover:scale-110 transition duration-200 border-2 border-transparent overflow-hidden" style="background-color: ${avatar.color}" data-avatar-id="${avatar.id}">
+                    ${generateAvatarSVG(avatar, 48)}
+                </button>
+            `).join('');
+        }
+
+        function generateAvatarSVG(avatar, size) {
+            const hairStyles = {
+                short: `<path d="M${size*0.2} ${size*0.25} Q${size*0.5} ${size*0.15} ${size*0.8} ${size*0.25} L${size*0.8} ${size*0.4} Q${size*0.5} ${size*0.3} ${size*0.2} ${size*0.4} Z" fill="#8B4513"/>`,
+                curly: `<circle cx="${size*0.3}" cy="${size*0.3}" r="${size*0.08}" fill="#8B4513"/><circle cx="${size*0.5}" cy="${size*0.25}" r="${size*0.08}" fill="#8B4513"/><circle cx="${size*0.7}" cy="${size*0.3}" r="${size*0.08}" fill="#8B4513"/>`,
+                long: `<path d="M${size*0.15} ${size*0.25} Q${size*0.5} ${size*0.1} ${size*0.85} ${size*0.25} L${size*0.85} ${size*0.7} Q${size*0.5} ${size*0.75} ${size*0.15} ${size*0.7} Z" fill="#8B4513"/>`,
+                bald: '',
+                spiky: `<polygon points="${size*0.3},${size*0.2} ${size*0.35},${size*0.1} ${size*0.4},${size*0.25} ${size*0.45},${size*0.15} ${size*0.5},${size*0.25} ${size*0.55},${size*0.1} ${size*0.6},${size*0.25} ${size*0.65},${size*0.15} ${size*0.7},${size*0.2}" fill="#8B4513"/>`,
+                wavy: `<path d="M${size*0.2} ${size*0.3} Q${size*0.3} ${size*0.2} ${size*0.4} ${size*0.3} Q${size*0.5} ${size*0.2} ${size*0.6} ${size*0.3} Q${size*0.7} ${size*0.2} ${size*0.8} ${size*0.3} L${size*0.8} ${size*0.5} Q${size*0.5} ${size*0.4} ${size*0.2} ${size*0.5} Z" fill="#8B4513"/>`,
+                ponytail: `<path d="M${size*0.2} ${size*0.25} Q${size*0.5} ${size*0.15} ${size*0.8} ${size*0.25} L${size*0.8} ${size*0.4} Q${size*0.5} ${size*0.3} ${size*0.2} ${size*0.4} Z" fill="#8B4513"/><ellipse cx="${size*0.85}" cy="${size*0.35}" rx="${size*0.1}" ry="${size*0.15}" fill="#8B4513"/>`,
+                buzz: `<rect x="${size*0.25}" y="${size*0.2}" width="${size*0.5}" height="${size*0.15}" rx="${size*0.05}" fill="#8B4513"/>`,
+                afro: `<circle cx="${size*0.5}" cy="${size*0.3}" r="${size*0.25}" fill="#8B4513"/>`,
+                mohawk: `<rect x="${size*0.45}" y="${size*0.1}" width="${size*0.1}" height="${size*0.3}" fill="#8B4513"/>`,
+                braids: `<path d="M${size*0.25} ${size*0.25} L${size*0.2} ${size*0.6}" stroke="#8B4513" stroke-width="3" fill="none"/><path d="M${size*0.75} ${size*0.25} L${size*0.8} ${size*0.6}" stroke="#8B4513" stroke-width="3" fill="none"/>`,
+                messy: `<path d="M${size*0.2} ${size*0.3} Q${size*0.25} ${size*0.15} ${size*0.35} ${size*0.25} Q${size*0.45} ${size*0.1} ${size*0.55} ${size*0.25} Q${size*0.65} ${size*0.15} ${size*0.75} ${size*0.25} Q${size*0.8} ${size*0.35} ${size*0.2} ${size*0.4} Z" fill="#8B4513"/>`
+            };
+
+            const eyeStyles = {
+                happy: `<circle cx="${size*0.4}" cy="${size*0.45}" r="${size*0.03}" fill="black"/><circle cx="${size*0.6}" cy="${size*0.45}" r="${size*0.03}" fill="black"/><path d="M${size*0.37} ${size*0.42} Q${size*0.4} ${size*0.4} ${size*0.43} ${size*0.42}" stroke="black" stroke-width="1" fill="none"/><path d="M${size*0.57} ${size*0.42} Q${size*0.6} ${size*0.4} ${size*0.63} ${size*0.42}" stroke="black" stroke-width="1" fill="none"/>`,
+                glasses: `<circle cx="${size*0.4}" cy="${size*0.45}" r="${size*0.03}" fill="black"/><circle cx="${size*0.6}" cy="${size*0.45}" r="${size*0.03}" fill="black"/><circle cx="${size*0.4}" cy="${size*0.45}" r="${size*0.08}" fill="none" stroke="black" stroke-width="2"/><circle cx="${size*0.6}" cy="${size*0.45}" r="${size*0.08}" fill="none" stroke="black" stroke-width="2"/><line x1="${size*0.48}" y1="${size*0.45}" x2="${size*0.52}" y2="${size*0.45}" stroke="black" stroke-width="2"/>`,
+                cool: `<line x1="${size*0.35}" y1="${size*0.45}" x2="${size*0.45}" y2="${size*0.45}" stroke="black" stroke-width="2"/><line x1="${size*0.55}" y1="${size*0.45}" x2="${size*0.65}" y2="${size*0.45}" stroke="black" stroke-width="2"/>`,
+                wink: `<circle cx="${size*0.4}" cy="${size*0.45}" r="${size*0.03}" fill="black"/><path d="M${size*0.57} ${size*0.43} Q${size*0.6} ${size*0.45} ${size*0.63} ${size*0.43}" stroke="black" stroke-width="2" fill="none"/>`,
+                star: `<polygon points="${size*0.4},${size*0.42} ${size*0.405},${size*0.46} ${size*0.42},${size*0.46} ${size*0.41},${size*0.48} ${size*0.415},${size*0.5} ${size*0.4},${size*0.49} ${size*0.385},${size*0.5} ${size*0.39},${size*0.48} ${size*0.38},${size*0.46} ${size*0.395},${size*0.46}" fill="gold"/><polygon points="${size*0.6},${size*0.42} ${size*0.605},${size*0.46} ${size*0.62},${size*0.46} ${size*0.61},${size*0.48} ${size*0.615},${size*0.5} ${size*0.6},${size*0.49} ${size*0.585},${size*0.5} ${size*0.59},${size*0.48} ${size*0.58},${size*0.46} ${size*0.595},${size*0.46}" fill="gold"/>`,
+                heart: `<path d="M${size*0.4} ${size*0.47} C${size*0.4} ${size*0.44} ${size*0.37} ${size*0.42} ${size*0.35} ${size*0.44} C${size*0.33} ${size*0.42} ${size*0.3} ${size*0.44} ${size*0.3} ${size*0.47} C${size*0.3} ${size*0.5} ${size*0.4} ${size*0.52} ${size*0.4} ${size*0.52} C${size*0.4} ${size*0.52} ${size*0.5} ${size*0.5} ${size*0.5} ${size*0.47} C${size*0.5} ${size*0.44} ${size*0.47} ${size*0.42} ${size*0.45} ${size*0.44} C${size*0.43} ${size*0.42} ${size*0.4} ${size*0.44} ${size*0.4} ${size*0.47} Z" fill="red"/><path d="M${size*0.6} ${size*0.47} C${size*0.6} ${size*0.44} ${size*0.57} ${size*0.42} ${size*0.55} ${size*0.44} C${size*0.53} ${size*0.42} ${size*0.5} ${size*0.44} ${size*0.5} ${size*0.47} C${size*0.5} ${size*0.5} ${size*0.6} ${size*0.52} ${size*0.6} ${size*0.52} C${size*0.6} ${size*0.52} ${size*0.7} ${size*0.5} ${size*0.7} ${size*0.47} C${size*0.7} ${size*0.44} ${size*0.67} ${size*0.42} ${size*0.65} ${size*0.44} C${size*0.63} ${size*0.42} ${size*0.6} ${size*0.44} ${size*0.6} ${size*0.47} Z" fill="red"/>`,
+                sleepy: `<path d="M${size*0.37} ${size*0.45} Q${size*0.4} ${size*0.47} ${size*0.43} ${size*0.45}" stroke="black" stroke-width="2" fill="none"/><path d="M${size*0.57} ${size*0.45} Q${size*0.6} ${size*0.47} ${size*0.63} ${size*0.45}" stroke="black" stroke-width="2" fill="none"/>`,
+                surprised: `<circle cx="${size*0.4}" cy="${size*0.45}" r="${size*0.05}" fill="black"/><circle cx="${size*0.6}" cy="${size*0.45}" r="${size*0.05}" fill="black"/>`,
+                normal: `<circle cx="${size*0.4}" cy="${size*0.45}" r="${size*0.03}" fill="black"/><circle cx="${size*0.6}" cy="${size*0.45}" r="${size*0.03}" fill="black"/>`,
+                closed: `<line x1="${size*0.37}" y1="${size*0.45}" x2="${size*0.43}" y2="${size*0.45}" stroke="black" stroke-width="2"/><line x1="${size*0.57}" y1="${size*0.45}" x2="${size*0.63}" y2="${size*0.45}" stroke="black" stroke-width="2"/>`,
+                angry: `<path d="M${size*0.37} ${size*0.42} L${size*0.43} ${size*0.47}" stroke="black" stroke-width="2"/><path d="M${size*0.43} ${size*0.42} L${size*0.37} ${size*0.47}" stroke="black" stroke-width="2"/><path d="M${size*0.57} ${size*0.42} L${size*0.63} ${size*0.47}" stroke="black" stroke-width="2"/><path d="M${size*0.63} ${size*0.42} L${size*0.57} ${size*0.47}" stroke="black" stroke-width="2"/>`
+            };
+
+            return `
+                <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+                    <!-- Face -->
+                    <circle cx="${size*0.5}" cy="${size*0.5}" r="${size*0.35}" fill="#FDBCB4" stroke="#E8A598" stroke-width="1"/>
+                    
+                    <!-- Hair -->
+                    ${hairStyles[avatar.hair] || ''}
+                    
+                    <!-- Eyes -->
+                    ${eyeStyles[avatar.eyes] || eyeStyles.normal}
+                    
+                    <!-- Nose -->
+                    <circle cx="${size*0.5}" cy="${size*0.52}" r="${size*0.015}" fill="#E8A598"/>
+                    
+                    <!-- Mouth -->
+                    <path d="M${size*0.45} ${size*0.6} Q${size*0.5} ${size*0.65} ${size*0.55} ${size*0.6}" stroke="black" stroke-width="1" fill="none"/>
+                </svg>
+            `;
+        }
+
+        function selectAvatar(avatarId) {
+            selectedAvatar = avatarId;
+            uploadedImage = null;
+            
+            // Update visual selection
+            document.querySelectorAll('.avatar-sticker').forEach(btn => {
+                btn.classList.remove('border-white');
+            });
+            document.querySelector(`[data-avatar-id="${avatarId}"]`).classList.add('border-white');
+            
+            // Update preview
+            const avatar = avatarStickers.find(a => a.id === avatarId);
+            if (avatar) {
+                const avatarSvgContent = generateAvatarSVG(avatar, 96);
+                const avatarSvg = `data:image/svg+xml,${encodeURIComponent(avatarSvgContent)}`;
+                document.getElementById('currentProfilePreview').src = avatarSvg;
+            }
+        }
+
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    showNotification('Image size should be less than 5MB', 'error');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImage = event.target.result;
+                    selectedAvatar = null;
+                    
+                    // Clear avatar selection
+                    document.querySelectorAll('.avatar-sticker').forEach(btn => {
+                        btn.classList.remove('border-white');
+                    });
+                    
+                    // Update preview
+                    document.getElementById('currentProfilePreview').src = uploadedImage;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveProfilePicture() {
+            if (!currentUser) return;
+            
+            let newProfilePicture = null;
+            
+            if (uploadedImage) {
+                newProfilePicture = uploadedImage;
+            } else if (selectedAvatar) {
+                const avatar = avatarStickers.find(a => a.id === selectedAvatar);
+                if (avatar) {
+                    const avatarSvgContent = generateAvatarSVG(avatar, 48);
+                    newProfilePicture = `data:image/svg+xml,${encodeURIComponent(avatarSvgContent)}`;
+                }
+            }
+            
+            if (newProfilePicture) {
+                currentUser.profilePicture = newProfilePicture;
+                database.users[currentUser.id] = currentUser;
+                saveToDatabase();
+                
+                updateProfileDisplay();
+                closeProfilePictureModal();
+                showNotification('Profile picture updated successfully!', 'success');
+            } else {
+                showNotification('Please select an avatar or upload an image', 'error');
+            }
+        }
+
+        // Enhanced Event Management
+        function handleEventSubmit(e) {
+            e.preventDefault();
+            
+            const event = {
+                id: editingEventId || Date.now(),
+                userId: currentUser.id,
+                title: document.getElementById('eventTitle').value,
+                category: document.getElementById('eventCategory').value,
+                date: document.getElementById('eventDate').value,
+                time: document.getElementById('eventTime').value,
+                location: document.getElementById('eventLocation').value,
+                description: document.getElementById('eventDescription').value,
+                priority: document.getElementById('eventPriority').value,
+                reminder: document.getElementById('eventReminder').value,
+                repeat: document.getElementById('eventRepeat').value,
+                createdAt: new Date().toISOString(),
+                aiSuggestions: generateEventSuggestions(document.getElementById('eventCategory').value)
+            };
+            
+            if (editingEventId) {
+                const index = events.findIndex(e => e.id === editingEventId);
+                events[index] = event;
+                
+                // Update in database
+                const dbIndex = database.events.findIndex(e => e.id === editingEventId);
+                database.events[dbIndex] = event;
+                
+                showNotification('Event updated with AI enhancements!', 'success');
+            } else {
+                events.push(event);
+                database.events.push(event);
+                showNotification('Smart event created successfully!', 'success');
+            }
+            
+            // Set reminder if specified
+            if (event.reminder !== 'none') {
+                setEventReminder(event);
+            }
+            
+            // Handle recurring events
+            if (event.repeat !== 'none') {
+                createRecurringEvents(event);
+            }
+            
+            saveToDatabase();
+            displayEvents();
+            updateDashboard();
+            updateCategoryCounts();
+            closeEventModal();
+        }
+
+        function generateEventSuggestions(category) {
+            return eventCategories[category]?.suggestions || [];
+        }
+
+        function createRecurringEvents(baseEvent) {
+            const recurringEvents = [];
+            const baseDate = new Date(baseEvent.date);
+            
+            for (let i = 1; i <= 10; i++) { // Create 10 recurring events
+                const newDate = new Date(baseDate);
+                
+                switch (baseEvent.repeat) {
+                    case 'daily':
+                        newDate.setDate(baseDate.getDate() + i);
+                        break;
+                    case 'weekly':
+                        newDate.setDate(baseDate.getDate() + (i * 7));
+                        break;
+                    case 'monthly':
+                        newDate.setMonth(baseDate.getMonth() + i);
+                        break;
+                    case 'yearly':
+                        newDate.setFullYear(baseDate.getFullYear() + i);
+                        break;
+                }
+                
+                const recurringEvent = {
+                    ...baseEvent,
+                    id: Date.now() + i,
+                    date: newDate.toISOString().split('T')[0],
+                    isRecurring: true,
+                    parentId: baseEvent.id
+                };
+                
+                recurringEvents.push(recurringEvent);
+            }
+            
+            events.push(...recurringEvents);
+            database.events.push(...recurringEvents);
+        }
+
+        // Health Management Functions
+        function addHealthReminder(type) {
+            const healthReminders = {
+                water: {
+                    title: 'Drink Water',
+                    description: 'Stay hydrated! Drink a glass of water.',
+                    interval: 60 // minutes
+                },
+                medicine: {
+                    title: 'Take Medicine',
+                    description: 'Time for your medication.',
+                    interval: 480 // 8 hours
+                },
+                exercise: {
+                    title: 'Exercise Time',
+                    description: 'Time for your workout session.',
+                    interval: 1440 // daily
+                },
+                checkup: {
+                    title: 'Health Checkup',
+                    description: 'Schedule your regular health checkup.',
+                    interval: 10080 // weekly
+                }
+            };
+            
+            const reminder = healthReminders[type];
+            if (reminder) {
+                const now = new Date();
+                now.setMinutes(now.getMinutes() + reminder.interval);
+                
+                const healthReminder = {
+                    id: Date.now(),
+                    userId: currentUser.id,
+                    title: reminder.title,
+                    datetime: now.toISOString().slice(0, 16),
+                    type: 'notification',
+                    category: 'health',
+                    description: reminder.description,
+                    active: true,
+                    createdAt: new Date().toISOString()
+                };
+                
+                reminders.push(healthReminder);
+                database.reminders.push(healthReminder);
+                saveToDatabase();
+                displayReminders();
+                showNotification(`${reminder.title} reminder set!`, 'success');
+            }
+        }
+
+        // Study Management Functions
+        function startStudyTimer() {
+            if (studyTimerInterval) {
+                clearInterval(studyTimerInterval);
+            }
+            
+            studyTimerInterval = setInterval(() => {
+                studyTimeLeft--;
+                updateStudyTimerDisplay();
+                
+                if (studyTimeLeft <= 0) {
+                    clearInterval(studyTimerInterval);
+                    showNotification('Study session complete! Time for a break.', 'success');
+                    studyTimeLeft = 25 * 60; // Reset to 25 minutes
+                    updateStudyTimerDisplay();
+                }
+            }, 1000);
+        }
+
+        function pauseStudyTimer() {
+            if (studyTimerInterval) {
+                clearInterval(studyTimerInterval);
+                studyTimerInterval = null;
+            }
+        }
+
+        function resetStudyTimer() {
+            if (studyTimerInterval) {
+                clearInterval(studyTimerInterval);
+                studyTimerInterval = null;
+            }
+            studyTimeLeft = 25 * 60;
+            updateStudyTimerDisplay();
+        }
+
+        function updateStudyTimerDisplay() {
+            const minutes = Math.floor(studyTimeLeft / 60);
+            const seconds = studyTimeLeft % 60;
+            document.getElementById('studyTimer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+
+
+        // Enhanced AI Functions
+        function generateAIRecommendations() {
+            const recommendations = [
+                {
+                    type: 'productivity',
+                    title: 'Optimize Your Schedule',
+                    message: 'Based on your patterns, consider scheduling important tasks between 9-11 AM for peak productivity.',
+                    action: 'View Analytics'
+                },
+                {
+                    type: 'health',
+                    title: 'Health Reminder',
+                    message: 'You haven\'t logged water intake today. Set up automatic hydration reminders?',
+                    action: 'Add Reminder'
+                },
+                {
+                    type: 'study',
+                    title: 'Study Break',
+                    message: 'You\'ve been studying for 2 hours. Take a 15-minute break for better retention.',
+                    action: 'Start Break Timer'
+                }
+            ];
+            
+            const container = document.getElementById('aiRecommendations');
+            container.innerHTML = recommendations.map(rec => `
+                <div class="flex items-start space-x-3 p-4 bg-white bg-opacity-10 rounded-lg">
+                    <i class="fas fa-lightbulb text-yellow-300 mt-1"></i>
+                    <div class="flex-1">
+                        <h4 class="text-white font-medium mb-1">${rec.title}</h4>
+                        <p class="text-purple-200 text-sm mb-2">${rec.message}</p>
+                        <button class="text-purple-300 hover:text-white text-sm font-medium">${rec.action}</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            let response = '';
+            
+            if (lowerMessage.includes('health') || lowerMessage.includes('water') || lowerMessage.includes('medicine')) {
+                response = 'I can help you with health reminders! I can set up water intake reminders, medication alerts, exercise schedules, and track your wellness goals. What would you like to focus on?';
+            } else if (lowerMessage.includes('study') || lowerMessage.includes('learn') || lowerMessage.includes('exam')) {
+                response = 'Great! I can help optimize your study schedule using AI. I can set up Pomodoro timers, create study plans, track your progress, and suggest the best times for learning based on your patterns.';
+            } else if (lowerMessage.includes('voice') || lowerMessage.includes('speak')) {
+                response = 'Voice commands are active! You can say things like "create event", "show calendar", "start study timer", "add water reminder", or "show dashboard". Try speaking naturally!';
+            } else if (lowerMessage.includes('analytics') || lowerMessage.includes('insights')) {
+                response = 'I analyze your productivity patterns, event completion rates, and suggest optimizations. Check the Analytics section for detailed insights about your habits and performance trends.';
+            } else if (lowerMessage.includes('category') || lowerMessage.includes('organize')) {
+                response = 'I can help organize your events into smart categories: Birthdays, Anniversaries, Meetings, Health reminders, Diet planning, Study schedules, Workouts, and Personal events. Each category has AI-powered suggestions!';
+            } else {
+                response = 'I\'m your AI assistant with advanced capabilities! I can help with voice commands, smart scheduling, health tracking, study planning, and provide intelligent insights about your productivity patterns. What would you like to explore?';
+            }
+            
+            addAIMessage(response);
+        }
+
+        function addAIMessage(message) {
+            const aiChat = document.getElementById('aiChat');
+            aiChat.innerHTML += `
+                <div class="flex items-start space-x-2">
+                    <i class="fas fa-brain text-purple-300 mt-1"></i>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-3 text-sm max-w-xs">
+                        ${message}
+                    </div>
+                </div>
+            `;
+            aiChat.scrollTop = aiChat.scrollHeight;
+        }
+
+        function createEventWithAI() {
+            openEventModal();
+            addAIMessage('I\'ve opened the smart event creator! I can suggest optimal times, set intelligent reminders, and provide category-specific recommendations.');
+        }
+
+        // Enhanced Category Management
+        function updateCategoryCounts() {
+            Object.keys(eventCategories).forEach(category => {
+                const count = events.filter(e => e.category === category).length;
+                const element = document.getElementById(category + 'Count');
+                if (element) {
+                    element.textContent = `${count} event${count !== 1 ? 's' : ''}`;
+                }
+            });
+        }
+
+        function filterByCategory(category) {
+            showSection('events');
+            currentFilter = category;
+            displayEvents();
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-purple-500');
+                btn.classList.add('bg-white', 'bg-opacity-20');
+            });
+        }
+
+        // Enhanced Database Functions
+        function saveToDatabase() {
+            localStorage.setItem('eventmaster_users', JSON.stringify(database.users));
+            localStorage.setItem('eventmaster_events', JSON.stringify(database.events));
+            localStorage.setItem('eventmaster_reminders', JSON.stringify(database.reminders));
+            localStorage.setItem('eventmaster_health', JSON.stringify(database.healthData));
+            localStorage.setItem('eventmaster_study', JSON.stringify(database.studyData));
+        }
+
+        function loadData() {
+            const savedUser = localStorage.getItem('eventmaster_current_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                document.getElementById('userName').textContent = currentUser.name;
+                loadUserData();
+            }
+        }
+
+        // Enhanced Dashboard
+        function updateDashboard() {
+            const today = new Date().toISOString().split('T')[0];
+            
+            const totalEvents = events.length;
+            const healthGoals = events.filter(e => e.category === 'health').length;
+            const studySessions = events.filter(e => e.category === 'study').length;
+            
+            document.getElementById('totalEvents').textContent = totalEvents;
+            document.getElementById('healthGoals').textContent = healthGoals;
+            document.getElementById('studySessions').textContent = studySessions;
+            document.getElementById('aiInsights').textContent = '5';
+        }
+
+        // Navigation and UI Functions (Enhanced versions of existing functions)
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            document.getElementById(sectionName + 'Section').classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'bg-opacity-20');
+            });
+            
+            // Find and highlight the clicked navigation button
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                if (btn.onclick && btn.onclick.toString().includes(sectionName)) {
+                    btn.classList.add('bg-white', 'bg-opacity-20');
+                }
+            });
+            
+            // Update section-specific content
+            if (sectionName === 'calendar') {
+                generateCalendar();
+            } else if (sectionName === 'events') {
+                displayEvents();
+            } else if (sectionName === 'reminders') {
+                displayReminders();
+            } else if (sectionName === 'dashboard') {
+                updateDashboard();
+            } else if (sectionName === 'categories') {
+                updateCategoryCounts();
+            } else if (sectionName === 'study') {
+                updateStudyOverview();
+                updateStudyScheduleDisplay();
+            } else if (sectionName === 'health') {
+                updateHealthOverview();
+            }
+        }
+
+        // Enhanced Event Display
+        function displayEvents() {
+            const eventsList = document.getElementById('eventsList');
+            let filteredEvents = events;
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Apply filters
+            if (currentFilter === 'upcoming') {
+                filteredEvents = events.filter(event => event.date >= today);
+            } else if (currentFilter === 'past') {
+                filteredEvents = events.filter(event => event.date < today);
+            } else if (currentFilter === 'today') {
+                filteredEvents = events.filter(event => event.date === today);
+            } else if (currentFilter !== 'all') {
+                filteredEvents = events.filter(event => event.category === currentFilter);
+            }
+            
+            if (filteredEvents.length === 0) {
+                eventsList.innerHTML = `
+                    <div class="glass-effect rounded-xl p-8 text-center text-white">
+                        <i class="fas fa-brain text-4xl text-purple-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">No events found</h3>
+                        <p class="text-purple-200">Create your first AI-powered event to get started!</p>
+                        <button onclick="createEventWithAI()" class="mt-4 bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-lg transition duration-200">
+                            Create with AI
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort events by date and time
+            filteredEvents.sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time));
+            
+            eventsList.innerHTML = filteredEvents.map(event => {
+                const isUpcoming = event.date >= today;
+                const category = eventCategories[event.category];
+                const priorityColors = {
+                    low: 'border-green-400',
+                    medium: 'border-yellow-400',
+                    high: 'border-red-400'
+                };
+                
+                return `
+                    <div class="glass-effect rounded-xl p-6 border-l-4 ${priorityColors[event.priority]} ${!isUpcoming ? 'opacity-75' : ''} hover:bg-white hover:bg-opacity-10 transition duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-3 mb-3">
+                                    <i class="${category.icon} text-${category.color}-300"></i>
+                                    <h3 class="text-xl font-semibold text-white">${event.title}</h3>
+                                    <span class="px-2 py-1 bg-${event.priority === 'high' ? 'red' : event.priority === 'medium' ? 'yellow' : 'green'}-500 text-white text-xs rounded-full">${event.priority.toUpperCase()}</span>
+                                    ${event.isRecurring ? '<span class="px-2 py-1 bg-blue-500 text-white text-xs rounded-full">RECURRING</span>' : ''}
+                                </div>
+                                
+                                <div class="space-y-2 text-purple-200">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-calendar w-4"></i>
+                                        <span>${formatDate(event.date)} at ${formatTime(event.time)}</span>
+                                    </div>
+                                    ${event.location ? `
+                                        <div class="flex items-center space-x-2">
+                                            <i class="fas fa-map-marker-alt w-4"></i>
+                                            <span>${event.location}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${event.description ? `<p class="text-white mt-2">${event.description}</p>` : ''}
+                                    
+                                    ${event.aiSuggestions && event.aiSuggestions.length > 0 ? `
+                                        <div class="mt-3">
+                                            <p class="text-purple-300 text-sm font-medium mb-1">AI Suggestions:</p>
+                                            <div class="flex flex-wrap gap-1">
+                                                ${event.aiSuggestions.map(suggestion => `
+                                                    <span class="px-2 py-1 bg-purple-500 bg-opacity-50 text-purple-200 text-xs rounded">${suggestion}</span>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-2 ml-4">
+                                <button onclick="editEvent(${event.id})" class="text-blue-400 hover:text-blue-300 p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="deleteEvent(${event.id})" class="text-red-400 hover:text-red-300 p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Enhanced Reminder Display
+        function displayReminders() {
+            const remindersList = document.getElementById('remindersList');
+            
+            if (reminders.length === 0) {
+                remindersList.innerHTML = `
+                    <div class="glass-effect rounded-xl p-8 text-center text-white">
+                        <i class="fas fa-brain text-4xl text-purple-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">No smart reminders set</h3>
+                        <p class="text-purple-200">Add your first AI-powered reminder!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const sortedReminders = reminders.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+            
+            remindersList.innerHTML = sortedReminders.map(reminder => {
+                const reminderDate = new Date(reminder.datetime);
+                const isPast = reminderDate < new Date();
+                
+                const typeIcons = {
+                    notification: 'fas fa-bell',
+                    alarm: 'fas fa-alarm-clock',
+                    email: 'fas fa-envelope',
+                    voice: 'fas fa-microphone'
+                };
+                
+                const categoryColors = {
+                    health: 'bg-green-500',
+                    study: 'bg-blue-500',
+                    work: 'bg-purple-500',
+                    personal: 'bg-pink-500',
+                    general: 'bg-gray-500'
+                };
+                
+                return `
+                    <div class="glass-effect rounded-xl p-4 ${isPast ? 'opacity-75' : ''} hover:bg-white hover:bg-opacity-10 transition duration-300">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <i class="${typeIcons[reminder.type]} text-purple-300"></i>
+                                    <h3 class="text-lg font-semibold text-white">${reminder.title}</h3>
+                                    <span class="px-2 py-1 ${categoryColors[reminder.category]} text-white text-xs rounded-full">${reminder.category.toUpperCase()}</span>
+                                </div>
+                                
+                                <div class="text-purple-200">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-clock w-4"></i>
+                                        <span>${reminderDate.toLocaleString()}</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        <i class="fas fa-tag w-4"></i>
+                                        <span>${reminder.type} reminder</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button onclick="deleteReminder(${reminder.id})" class="text-red-400 hover:text-red-300 p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition duration-200">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Modal Functions
+        function openEventModal() {
+            document.getElementById('eventModal').classList.remove('hidden');
+            document.getElementById('eventModal').classList.add('flex');
+        }
+
+        function closeEventModal() {
+            document.getElementById('eventModal').classList.add('hidden');
+            document.getElementById('eventModal').classList.remove('flex');
+            document.getElementById('eventForm').reset();
+            editingEventId = null;
+        }
+
+        function openReminderModal() {
+            document.getElementById('reminderModal').classList.remove('hidden');
+            document.getElementById('reminderModal').classList.add('flex');
+        }
+
+        function closeReminderModal() {
+            document.getElementById('reminderModal').classList.add('hidden');
+            document.getElementById('reminderModal').classList.remove('flex');
+            document.getElementById('reminderForm').reset();
+        }
+
+        function openHealthGoalModal() {
+            document.getElementById('healthGoalModal').classList.remove('hidden');
+            document.getElementById('healthGoalModal').classList.add('flex');
+        }
+
+        function closeHealthGoalModal() {
+            document.getElementById('healthGoalModal').classList.add('hidden');
+            document.getElementById('healthGoalModal').classList.remove('flex');
+            document.getElementById('healthGoalForm').reset();
+        }
+
+        function openStudyPlanModal() {
+            document.getElementById('studyPlanModal').classList.remove('hidden');
+            document.getElementById('studyPlanModal').classList.add('flex');
+        }
+
+        function closeStudyPlanModal() {
+            document.getElementById('studyPlanModal').classList.add('hidden');
+            document.getElementById('studyPlanModal').classList.remove('flex');
+            document.getElementById('studyPlanForm').reset();
+        }
+
+        function toggleAIAssistant() {
+            const aiAssistant = document.getElementById('aiAssistant');
+            aiAssistant.classList.toggle('hidden');
+        }
+
+        function toggleNotifications() {
+            const notificationsPanel = document.getElementById('notificationsPanel');
+            const profilePanel = document.getElementById('profilePanel');
+            
+            // Close profile panel if open
+            profilePanel.classList.add('hidden');
+            
+            notificationsPanel.classList.toggle('hidden');
+            
+            if (!notificationsPanel.classList.contains('hidden')) {
+                displayNotifications();
+            }
+        }
+
+        // Enhanced Reminder Functions
+        function handleReminderSubmit(e) {
+            e.preventDefault();
+            
+            const reminder = {
+                id: Date.now(),
+                userId: currentUser.id,
+                title: document.getElementById('reminderTitle').value,
+                datetime: document.getElementById('reminderDateTime').value,
+                type: document.getElementById('reminderType').value,
+                category: document.getElementById('reminderCategory').value,
+                active: true,
+                createdAt: new Date().toISOString()
+            };
+            
+            reminders.push(reminder);
+            database.reminders.push(reminder);
+            saveToDatabase();
+            displayReminders();
+            closeReminderModal();
+            showNotification('Smart reminder added successfully!', 'success');
+        }
+
+        function deleteReminder(id) {
+            if (confirm('Are you sure you want to delete this reminder?')) {
+                reminders = reminders.filter(r => r.id !== id);
+                database.reminders = database.reminders.filter(r => r.id !== id);
+                saveToDatabase();
+                displayReminders();
+                showNotification('Reminder deleted successfully!', 'success');
+            }
+        }
+
+        // Health Goal Functions
+        function handleHealthGoalSubmit(e) {
+            e.preventDefault();
+            
+            const healthGoal = {
+                id: Date.now(),
+                userId: currentUser.id,
+                title: document.getElementById('healthGoalTitle').value,
+                type: document.getElementById('healthGoalType').value,
+                target: parseInt(document.getElementById('healthGoalTarget').value),
+                unit: document.getElementById('healthGoalUnit').value,
+                duration: document.getElementById('healthGoalDuration').value,
+                current: 0,
+                createdAt: new Date().toISOString(),
+                active: true
+            };
+            
+            // Save to database
+            if (!database.healthData[currentUser.id]) {
+                database.healthData[currentUser.id] = { goals: [] };
+            }
+            database.healthData[currentUser.id].goals.push(healthGoal);
+            saveToDatabase();
+            
+            closeHealthGoalModal();
+            updateHealthOverview();
+            showNotification('Health goal created successfully!', 'success');
+        }
+
+        function updateHealthOverview() {
+            const healthOverview = document.getElementById('healthOverview');
+            const userHealthData = database.healthData[currentUser.id];
+            
+            if (!userHealthData || !userHealthData.goals || userHealthData.goals.length === 0) {
+                return; // Keep the empty state
+            }
+            
+            const goals = userHealthData.goals.filter(g => g.active);
+            
+            healthOverview.innerHTML = goals.map(goal => {
+                const percentage = Math.min((goal.current / goal.target) * 100, 100);
+                const progressColor = percentage >= 80 ? 'bg-green-500' : percentage >= 50 ? 'bg-yellow-500' : 'bg-red-500';
+                
+                return `
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-white">${goal.title}</span>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-32 bg-white bg-opacity-20 rounded-full h-2">
+                                <div class="${progressColor} h-2 rounded-full" style="width: ${percentage}%"></div>
+                            </div>
+                            <span class="text-sm text-white">${goal.current}/${goal.target} ${goal.unit}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            healthOverview.innerHTML += `
+                <button onclick="openHealthGoalModal()" class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-200">
+                    <i class="fas fa-plus mr-2"></i>Add Another Goal
+                </button>
+            `;
+        }
+
+        // Study Plan Functions
+        function handleStudyPlanSubmit(e) {
+            e.preventDefault();
+            
+            const studyPlan = {
+                id: Date.now(),
+                userId: currentUser.id,
+                subject: document.getElementById('studySubject').value,
+                topic: document.getElementById('studyTopic').value,
+                duration: parseFloat(document.getElementById('studyDuration').value),
+                priority: document.getElementById('studyPriority').value,
+                scheduleType: document.getElementById('studyScheduleType').value,
+                startDate: document.getElementById('studyStartDate').value,
+                status: 'upcoming',
+                progress: 0,
+                createdAt: new Date().toISOString(),
+                active: true
+            };
+            
+            // Save to database
+            if (!database.studyData[currentUser.id]) {
+                database.studyData[currentUser.id] = { plans: [], sessions: [] };
+            }
+            database.studyData[currentUser.id].plans.push(studyPlan);
+            saveToDatabase();
+            
+            closeStudyPlanModal();
+            updateStudyOverview();
+            updateStudyScheduleDisplay();
+            showNotification('Study plan created successfully!', 'success');
+        }
+
+        function updateStudyOverview() {
+            const studyProgress = document.getElementById('studyProgress');
+            const currentFocus = document.getElementById('currentFocus');
+            const userStudyData = database.studyData[currentUser.id];
+            
+            if (!userStudyData || !userStudyData.plans || userStudyData.plans.length === 0) {
+                return; // Keep the empty state
+            }
+            
+            const plans = userStudyData.plans.filter(p => p.active);
+            const totalHours = plans.reduce((sum, plan) => sum + plan.duration, 0);
+            const completedHours = plans.reduce((sum, plan) => sum + (plan.duration * plan.progress / 100), 0);
+            
+            // Update study progress
+            studyProgress.innerHTML = `
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-300">${completedHours.toFixed(1)}</div>
+                    <p class="text-purple-200 text-sm">Hours Completed</p>
+                    <div class="mt-2">
+                        <div class="text-2xl font-bold text-green-300">${Math.round((completedHours / totalHours) * 100) || 0}%</div>
+                        <p class="text-purple-200 text-sm">Overall Progress</p>
+                    </div>
+                </div>
+            `;
+            
+            // Update current focus
+            const activePlan = plans.find(p => p.status === 'in-progress') || plans.find(p => p.status === 'upcoming');
+            if (activePlan) {
+                currentFocus.innerHTML = `
+                    <div class="text-center">
+                        <i class="fas fa-book text-4xl text-purple-300 mb-3"></i>
+                        <h4 class="text-xl font-semibold text-white">${activePlan.subject}</h4>
+                        <p class="text-purple-200 text-sm">${activePlan.topic}</p>
+                        <div class="mt-3">
+                            <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                                <div class="bg-purple-500 h-2 rounded-full" style="width: ${activePlan.progress}%"></div>
+                            </div>
+                            <p class="text-xs text-purple-200 mt-1">${activePlan.progress}% Complete</p>
+                        </div>
+                        <button onclick="startStudySession(${activePlan.id})" class="mt-3 bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg text-sm transition duration-200">
+                            ${activePlan.status === 'in-progress' ? 'Continue' : 'Start'} Session
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function updateStudyScheduleDisplay() {
+            const studySchedule = document.getElementById('studySchedule');
+            const userStudyData = database.studyData[currentUser.id];
+            
+            if (!userStudyData || !userStudyData.plans || userStudyData.plans.length === 0) {
+                return; // Keep the empty state
+            }
+            
+            const plans = userStudyData.plans.filter(p => p.active);
+            
+            studySchedule.innerHTML = plans.map(plan => {
+                const statusColors = {
+                    completed: 'bg-green-500',
+                    'in-progress': 'bg-yellow-500',
+                    upcoming: 'bg-blue-500'
+                };
+                
+                return `
+                    <div class="flex items-center justify-between p-4 bg-white bg-opacity-10 rounded-lg">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-3 h-3 rounded-full ${statusColors[plan.status]}"></div>
+                            <div>
+                                <h4 class="text-white font-medium">${plan.subject}</h4>
+                                <p class="text-purple-200 text-sm">${plan.topic} - ${plan.duration} hours</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="px-3 py-1 bg-purple-500 text-white text-xs rounded-full capitalize">${plan.status.replace('-', ' ')}</span>
+                            <button onclick="deletePlan(${plan.id})" class="text-red-400 hover:text-red-300 p-1">
+                                <i class="fas fa-trash text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            studySchedule.innerHTML += `
+                <button onclick="openStudyPlanModal()" class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
+                    <i class="fas fa-plus mr-2"></i>Add Study Plan
+                </button>
+            `;
+        }
+
+        function startStudySession(planId) {
+            const userStudyData = database.studyData[currentUser.id];
+            const plan = userStudyData.plans.find(p => p.id === planId);
+            
+            if (plan) {
+                plan.status = 'in-progress';
+                saveToDatabase();
+                updateStudyOverview();
+                updateStudyScheduleDisplay();
+                showNotification(`Started study session: ${plan.subject}`, 'success');
+                
+                // Start the study timer
+                startStudyTimer();
+            }
+        }
+
+        function deletePlan(planId) {
+            if (confirm('Are you sure you want to delete this study plan?')) {
+                const userStudyData = database.studyData[currentUser.id];
+                userStudyData.plans = userStudyData.plans.filter(p => p.id !== planId);
+                saveToDatabase();
+                updateStudyOverview();
+                updateStudyScheduleDisplay();
+                showNotification('Study plan deleted successfully!', 'success');
+            }
+        }
+
+        function setEventReminder(event) {
+            const eventDateTime = new Date(event.date + ' ' + event.time);
+            const reminderTime = new Date(eventDateTime.getTime() - (parseInt(event.reminder) * 60000));
+            
+            const reminder = {
+                id: Date.now(),
+                userId: currentUser.id,
+                title: `Reminder: ${event.title}`,
+                datetime: reminderTime.toISOString().slice(0, 16),
+                type: 'notification',
+                category: event.category,
+                active: true,
+                eventId: event.id,
+                createdAt: new Date().toISOString()
+            };
+            
+            reminders.push(reminder);
+            database.reminders.push(reminder);
+        }
+
+        function checkReminders() {
+            const now = new Date();
+            const activeReminders = reminders.filter(r => r.active && new Date(r.datetime) <= now);
+            
+            activeReminders.forEach(reminder => {
+                if (reminder.type === 'voice') {
+                    speakReminder(reminder.title);
+                } else {
+                    showNotification(reminder.title, 'reminder');
+                }
+                reminder.active = false;
+            });
+            
+            if (activeReminders.length > 0) {
+                saveToDatabase();
+            }
+        }
+
+        function speakReminder(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Event Management Functions
+        function editEvent(id) {
+            const event = events.find(e => e.id === id);
+            if (event) {
+                editingEventId = id;
+                document.getElementById('eventTitle').value = event.title;
+                document.getElementById('eventCategory').value = event.category;
+                document.getElementById('eventDate').value = event.date;
+                document.getElementById('eventTime').value = event.time;
+                document.getElementById('eventLocation').value = event.location || '';
+                document.getElementById('eventDescription').value = event.description || '';
+                document.getElementById('eventPriority').value = event.priority;
+                document.getElementById('eventReminder').value = event.reminder || 'none';
+                document.getElementById('eventRepeat').value = event.repeat || 'none';
+                openEventModal();
+            }
+        }
+
+        function deleteEvent(id) {
+            if (confirm('Are you sure you want to delete this event?')) {
+                events = events.filter(e => e.id !== id);
+                database.events = database.events.filter(e => e.id !== id);
+                saveToDatabase();
+                displayEvents();
+                updateDashboard();
+                updateCategoryCounts();
+                showNotification('Event deleted successfully!', 'success');
+            }
+        }
+
+        function filterEvents(filter) {
+            currentFilter = filter;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-purple-500');
+                btn.classList.add('bg-white', 'bg-opacity-20');
+            });
+            
+            if (event && event.target) {
+                event.target.classList.remove('bg-white', 'bg-opacity-20');
+                event.target.classList.add('bg-purple-500');
+            }
+            
+            displayEvents();
+        }
+
+        // Calendar Functions
+        function generateCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            const currentMonthElement = document.getElementById('currentMonth');
+            
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            currentMonthElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            let calendarHTML = '';
+            
+            for (let i = 0; i < firstDay; i++) {
+                calendarHTML += '<div class="p-2"></div>';
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayEvents = events.filter(event => event.date === dateString);
+                const isToday = dateString === new Date().toISOString().split('T')[0];
+                
+                calendarHTML += `
+                    <div class="p-2 min-h-[80px] border border-white border-opacity-20 rounded-lg ${isToday ? 'bg-purple-500 bg-opacity-50' : 'hover:bg-white hover:bg-opacity-10'} transition duration-200">
+                        <div class="text-white font-semibold mb-1">${day}</div>
+                        ${dayEvents.map(event => {
+                            const category = eventCategories[event.category];
+                            return `
+                                <div class="text-xs bg-${category.color}-400 text-white px-1 py-0.5 rounded mb-1 truncate" title="${event.title}">
+                                    <i class="${category.icon} mr-1"></i>${event.title}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            }
+            
+            calendarGrid.innerHTML = calendarHTML;
+        }
+
+        function previousMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar();
+        }
+
+        // AI Assistant Functions
+        function sendAIMessage() {
+            const input = document.getElementById('aiInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            const aiChat = document.getElementById('aiChat');
+            
+            aiChat.innerHTML += `
+                <div class="flex items-start space-x-2 justify-end">
+                    <div class="bg-purple-500 rounded-lg p-3 text-sm max-w-xs">
+                        ${message}
+                    </div>
+                    <i class="fas fa-user text-purple-300 mt-1"></i>
+                </div>
+            `;
+            
+            input.value = '';
+            
+            setTimeout(() => {
+                generateAIResponse(message);
+            }, 1000);
+            
+            aiChat.scrollTop = aiChat.scrollHeight;
+        }
+
+        // Notification Functions
+        function displayNotifications() {
+            const notificationsList = document.getElementById('notificationsList');
+            
+            const notifications = [
+                { type: 'reminder', message: 'Water reminder: Stay hydrated!', time: '2 min ago', category: 'health' },
+                { type: 'event', message: 'Study session starting in 15 minutes', time: '5 min ago', category: 'study' },
+                { type: 'ai', message: 'AI suggests taking a break after 2 hours of study', time: '10 min ago', category: 'productivity' },
+                { type: 'system', message: 'Voice commands are now active', time: '1 hour ago', category: 'system' }
+            ];
+            
+            notificationsList.innerHTML = notifications.map(notification => `
+                <div class="flex items-start space-x-3 p-3 bg-white bg-opacity-10 rounded-lg">
+                    <i class="fas fa-${notification.type === 'reminder' ? 'bell' : notification.type === 'event' ? 'calendar' : notification.type === 'ai' ? 'brain' : 'info-circle'} text-purple-300 mt-1"></i>
+                    <div class="flex-1">
+                        <p class="text-sm text-white">${notification.message}</p>
+                        <div class="flex justify-between items-center mt-1">
+                            <p class="text-xs text-purple-200">${notification.time}</p>
+                            <span class="px-2 py-0.5 bg-purple-500 text-white text-xs rounded">${notification.category}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-20 right-4 glass-effect rounded-lg p-4 text-white notification-slide z-50 max-w-sm`;
+            
+            const icons = {
+                success: 'fas fa-check-circle text-green-400',
+                error: 'fas fa-exclamation-circle text-red-400',
+                warning: 'fas fa-exclamation-triangle text-yellow-400',
+                info: 'fas fa-info-circle text-blue-400',
+                reminder: 'fas fa-bell text-purple-400'
+            };
+            
+            notification.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <i class="${icons[type]}"></i>
+                    <span class="flex-1">${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="text-white hover:text-purple-300">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Utility Functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        function formatTime(timeString) {
+            const [hours, minutes] = timeString.split(':');
+            const date = new Date();
+            date.setHours(parseInt(hours), parseInt(minutes));
+            return date.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Logout and App Management
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('eventmaster_current_user');
+            document.getElementById('loginModal').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        function showMainApp() {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            localStorage.setItem('eventmaster_current_user', JSON.stringify(currentUser));
+            updateDashboard();
+            showSection('dashboard');
+        }
+
+
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'965e7dbf1255f56a',t:'MTc1MzY0Mzk5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
