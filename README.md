@@ -9,7 +9,7 @@ A clean and responsive web application to create, manage, and display events. Bu
 
 ## 📸 Screenshots
 
-![EventMaster Screenshot](eventmaster.jpg)
+![event-master](https://github.com/user-attachments/assets/edfcee7c-f351-4061-b1fb-c56a974f3ca6)
 
 ## ✨ Features
 
