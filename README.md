@@ -1,7 +1,6 @@
 # 🎉 Event Master Web App
 
-A clean and responsive web application to create, manage, and display events. Built with HTML, CSS.
-
+Event Master is a smart lifestyle and event management web app built with HTML, and CSS. It helps users organize daily tasks, study schedules, workouts, health reminders, anniversaries, meetings, diet plans, and custom personal events—all in one place. With an integrated AI chatbot for assistance and AI-driven analysis for productivity.
 
 ## 🔗 Live Demo
 
