@@ -1,4 +1,4 @@
-# 🎉 Event Manager Web App
+# 🎉 Event Master Web App
 
 A clean and responsive web application to create, manage, and display events. Built with HTML, CSS.
 
